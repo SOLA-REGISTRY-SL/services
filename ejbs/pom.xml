@@ -31,7 +31,7 @@
         <module>transaction</module>
         <module>admin</module>
         <module>refdata</module>
-    </modules>
+  </modules>
     <dependencies>
         <dependency>
             <groupId>org.sola.services</groupId>
