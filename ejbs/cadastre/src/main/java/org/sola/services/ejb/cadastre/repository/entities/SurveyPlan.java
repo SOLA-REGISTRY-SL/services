@@ -24,102 +24,60 @@ public class SurveyPlan extends AbstractVersionedEntity {
     @Column
     private String id;
 
-    @Column(name = "LSNo")
+    @Column(name = "ls_nr")
     String LSNo;
 
-    @Column(name = "NameofOwner")
+    @Column(name = "owner_name")
     String nameofOwner;
-
-    @Column(name = "Gender")
-    String gender;
-
-    @Column(name = "DateofBirt")
-    String dateOfBirth;
-
-    @Column(name = "PlaceofBirth")
-    String placeOfBirth;
-
-    @Column(name = "PhoneNo")
-    String phoneNo;
-    
-    @Column(name = "EmailAddress")
-    String emailAddress;
-    
-    @Column(name = "NationalIDNo")
-    String nationalIDNo;
-    
-    @Column(name = "PassportNo")
-    String passportNo;
-    
-    @Column(name = "AddressofOwner")
-    String addressOfOwner;
-    
-    @Column(name = "PropertyNameofStreet")
+ 
+    @Column(name = "name_of_street")
     String propertyNameofStreet;
     
-    @Column(name = "PropertyAddressNo")
+    @Column(name = "address_nr")
     String propertyAddressNo;
     
-    @Column(name = "AreaofLand")
+     @Column(name = "land_type")
+    String landtype;
+     
+    @Column(name = "land_area")
     String areaOfLand;
     
-    @Column(name = "LandMeasurement")
+    @Column(name = "land_measurement")
     String landMeasurement;
     
-    @Column(name = "NameofLicenseSurveyor")
+    @Column(name = "license_surveyor_name")
     String nameofLicenseSurveyor;
     
-    @Column(name = "EastNeighborPlotHolder")
+    @Column(name = "east_neighbour")
     String eastNeighborPlotHolder;
     
-    @Column(name = "WestNeighborPlotHolder")
+    @Column(name = "west_neighbour")
     String westNeighborPlotHolder;
     
-    @Column(name = "NorthNeighborPlotHolder")
+    @Column(name = "north_neighbour")
     String northNeighborPlotHolder;
     
-    @Column(name = "SouthNeighborPlotHolder")
+    @Column(name = "south_neighbour")
     String southNeighborPlotHolder;
     
-    @Column(name = "SurveyingMethod")
+    @Column(name = "survey_method")
     String surveyingMethod;
     
-    @Column(name = "DirectorofSurveys")
+    @Column(name = "director_of_survey")
     String directorofSurveys;
     
-    @Column(name = "DateSurveyed")
+    @Column(name = "date_surveyed")
     String DateSurveyed;
     
-    @Column(name = "BeaconNumber")
+    @Column(name = "beacon_number")
     String beaconNumber;
     
-    @Column(name = "NameofCO")
+    @Column(name = "charting_officer_name")
     String nameofCO;
-    
-    @Column(name = "PhoneNoofCO")
-    String phoneNoofCO;
-    
-    @Column(name = "DateApprovedbyCO")
-    String dateApprovedbyCO;
-    
-    @Column(name = "DesignationofCO")
-    String designationofCO;
-    
-    @Column(name = "NameofSLCO")
+     
+    @Column(name = "state_land_clearing_officer")
     String nameofSLCO;
-    
-    @Column(name = "PhoneNoOfSLCO")
-    String phoneNoOfSLCO;
-    
-    @Column(name = "EmailAddressOfSLCO")
-    String emailAddressOfSLCO;
-    
-    @Column(name = "DateInputtedIntoSystem")
-    String dateInputtedIntoSystem;
-    
-    @Column(name = "InputtedBy")
-    String inputtedBy;
-    
+      
 //Getters and Setters
     public String getId() {
         return id;
@@ -144,71 +102,7 @@ public class SurveyPlan extends AbstractVersionedEntity {
     public void setNameofOwner(String nameofOwner) {
         this.nameofOwner = nameofOwner;
     }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getPlaceOfBirth() {
-        return placeOfBirth;
-    }
-
-    public void setPlaceOfBirth(String placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
-    }
-
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getNationalIDNo() {
-        return nationalIDNo;
-    }
-
-    public void setNationalIDNo(String nationalIDNo) {
-        this.nationalIDNo = nationalIDNo;
-    }
-
-    public String getPassportNo() {
-        return passportNo;
-    }
-
-    public void setPassportNo(String passportNo) {
-        this.passportNo = passportNo;
-    }
-
-    public String getAddressOfOwner() {
-        return addressOfOwner;
-    }
-
-    public void setAddressOfOwner(String addressOfOwner) {
-        this.addressOfOwner = addressOfOwner;
-    }
-
+ 
     public String getPropertyNameofStreet() {
         return propertyNameofStreet;
     }
@@ -321,30 +215,6 @@ public class SurveyPlan extends AbstractVersionedEntity {
         this.nameofCO = nameofCO;
     }
 
-    public String getPhoneNoofCO() {
-        return phoneNoofCO;
-    }
-
-    public void setPhoneNoofCO(String phoneNoofCO) {
-        this.phoneNoofCO = phoneNoofCO;
-    }
-
-    public String getDateApprovedbyCO() {
-        return dateApprovedbyCO;
-    }
-
-    public void setDateApprovedbyCO(String dateApprovedbyCO) {
-        this.dateApprovedbyCO = dateApprovedbyCO;
-    }
-
-    public String getDesignationofCO() {
-        return designationofCO;
-    }
-
-    public void setDesignationofCO(String designationofCO) {
-        this.designationofCO = designationofCO;
-    }
-
     public String getNameofSLCO() {
         return nameofSLCO;
     }
@@ -352,37 +222,5 @@ public class SurveyPlan extends AbstractVersionedEntity {
     public void setNameofSLCO(String nameofSLCO) {
         this.nameofSLCO = nameofSLCO;
     }
-
-    public String getPhoneNoOfSLCO() {
-        return phoneNoOfSLCO;
-    }
-
-    public void setPhoneNoOfSLCO(String phoneNoOfSLCO) {
-        this.phoneNoOfSLCO = phoneNoOfSLCO;
-    }
-
-    public String getEmailAddressOfSLCO() {
-        return emailAddressOfSLCO;
-    }
-
-    public void setEmailAddressOfSLCO(String emailAddressOfSLCO) {
-        this.emailAddressOfSLCO = emailAddressOfSLCO;
-    }
-
-    public String getDateInputtedIntoSystem() {
-        return dateInputtedIntoSystem;
-    }
-
-    public void setDateInputtedIntoSystem(String dateInputtedIntoSystem) {
-        this.dateInputtedIntoSystem = dateInputtedIntoSystem;
-    }
-
-    public String getInputtedBy() {
-        return inputtedBy;
-    }
-
-    public void setInputtedBy(String inputtedBy) {
-        this.inputtedBy = inputtedBy;
-    }
-   
+ 
 }
