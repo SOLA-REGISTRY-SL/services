@@ -615,4 +615,32 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<SpatialUnit> getSpatialUnitsByIds(List<String> ids) {
         return getRepository().getEntityListByIds(SpatialUnit.class, ids);
     }
+    
+    //SAVE SURVEY PLAN DETAILS
+     /**
+     * Saves the changes in the Survey Plan.
+     *
+     * @param items
+     * @param languageCode
+     */
+    @Override
+    public void saveSurveyPlan(List<SurveyPlan> items, String languageCode) {
+        if (items.isEmpty()) {
+            return;
+        }
+        for (SurveyPlan item : items) {
+            getRepository().saveEntity(item);
+        }
+    }
+    
+     /**
+     * Retrieves a list of Survey Plans matching the list of ids
+     * provided.
+     *
+     * @param ids A list of survey Plan ids to use for retrieval or lsNo.
+     */
+    @Override
+    public List<SurveyPlan> getSurveyPlanByIds(List<String> ids) {
+        return getRepository().getEntityListByIds(SurveyPlan.class, ids);
+    }
 }

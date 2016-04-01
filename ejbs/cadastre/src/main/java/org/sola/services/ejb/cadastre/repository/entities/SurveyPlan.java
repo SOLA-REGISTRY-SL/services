@@ -14,7 +14,8 @@ import org.sola.services.common.repository.entities.AbstractVersionedEntity;
  * @author Moses VB
  */
 public class SurveyPlan extends AbstractVersionedEntity {
-
+  public static String WHERE_CONDITION = "id = #{id}";
+           
     //Constructor
     public SurveyPlan() {
         super();
@@ -25,58 +26,58 @@ public class SurveyPlan extends AbstractVersionedEntity {
     private String id;
 
     @Column(name = "ls_nr")
-    String LSNo;
+    private String LSNo;
 
     @Column(name = "owner_name")
-    String nameofOwner;
+    private String nameofOwner;
  
     @Column(name = "name_of_street")
-    String propertyNameofStreet;
+    private String propertyNameofStreet;
     
     @Column(name = "address_nr")
-    String propertyAddressNo;
+    private String propertyAddressNo;
     
      @Column(name = "land_type")
-    String landtype;
+    private String landtype;
      
     @Column(name = "land_area")
-    String areaOfLand;
+    private String areaOfLand;
     
     @Column(name = "land_measurement")
-    String landMeasurement;
+    private String landMeasurement;
     
     @Column(name = "license_surveyor_name")
-    String nameofLicenseSurveyor;
+    private String nameofLicenseSurveyor;
     
     @Column(name = "east_neighbour")
-    String eastNeighborPlotHolder;
+    private String eastNeighborPlotHolder;
     
     @Column(name = "west_neighbour")
-    String westNeighborPlotHolder;
+    private String westNeighborPlotHolder;
     
     @Column(name = "north_neighbour")
-    String northNeighborPlotHolder;
+    private String northNeighborPlotHolder;
     
     @Column(name = "south_neighbour")
-    String southNeighborPlotHolder;
+    private String southNeighborPlotHolder;
     
     @Column(name = "survey_method")
-    String surveyingMethod;
+    private String surveyingMethod;
     
     @Column(name = "director_of_survey")
-    String directorofSurveys;
+    private String directorofSurveys;
     
     @Column(name = "date_surveyed")
-    String DateSurveyed;
+    private String DateSurveyed;
     
     @Column(name = "beacon_number")
-    String beaconNumber;
+    private String beaconNumber;
     
     @Column(name = "charting_officer_name")
-    String nameofCO;
+    private String nameofCO;
      
     @Column(name = "state_land_clearing_officer")
-    String nameofSLCO;
+    private String nameofSLCO;
       
 //Getters and Setters
     public String getId() {
@@ -86,7 +87,7 @@ public class SurveyPlan extends AbstractVersionedEntity {
     public void setId(String id) {
         this.id = id;
     }
-
+ 
     public String getLSNo() {
         return LSNo;
     }

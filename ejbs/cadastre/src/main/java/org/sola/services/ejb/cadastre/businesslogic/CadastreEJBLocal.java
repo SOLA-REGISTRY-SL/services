@@ -223,4 +223,16 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
      * CadastreEJB.getSpatialUnitsByIds}.
      */
     List<SpatialUnit> getSpatialUnitsByIds(List<String> ids);
+    
+    
+    //Survey Plan Details
+   void saveSurveyPlan(List<SurveyPlan> items, String languageCode);
+   
+   //Get or search survey Plan by id
+    List<SurveyPlan> getSurveyPlanByIds(List<String> ids);
+    
+    //Get Survey Plans
+   // List<SurveyPlan> getSurveyPlan(String lsNo);
+
+    
 }
