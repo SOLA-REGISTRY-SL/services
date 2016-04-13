@@ -243,4 +243,9 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     List<SurveyingMethodType> getSurveyingMethodTypes(String languageCode);
 
     List<SurveyingMethodType> getSurveyingMethodTypesByIds(List<String> ids);
+    
+     //ChiefdomType
+    List<ChiefdomType> getChiefdomTypes(String languageCode);
+
+    List<ChiefdomType> getChiefdomTypesByIds(List<String> ids);
 }

@@ -671,4 +671,15 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         return getRepository().getCodeList(SurveyingMethodType.class, languageCode);
     }
     
+    //CheifdomType
+     @Override
+    public List<ChiefdomType> getChiefdomTypesByIds(List<String> ids) {
+        return getRepository().getEntityListByIds(ChiefdomType.class, ids);
+    }
+    
+     @Override
+    public List<ChiefdomType> getChiefdomTypes(String languageCode) {
+        return getRepository().getCodeList(ChiefdomType.class, languageCode);
+    }
+    
 }
