@@ -643,4 +643,32 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<SurveyPlan> getSurveyPlanByIds(List<String> ids) {
         return getRepository().getEntityListByIds(SurveyPlan.class, ids);
     }
+   
+      /**
+     * Retrieves a list of CordinateSystem Types matching the list of ids
+     * provided.
+     *
+     * @param ids A list of CordinateSystem Type ids to use for retrieval.
+     */
+    @Override
+    public List<CordinateSystemType> getCordinateTypesByIds(List<String> ids) {
+        return getRepository().getEntityListByIds(CordinateSystemType.class, ids);
+    }
+    
+     @Override
+    public List<CordinateSystemType> getCordniateSystemTypes(String languageCode) {
+        return getRepository().getCodeList(CordinateSystemType.class, languageCode);
+    }
+    
+    //SurveyingMethodType
+     @Override
+    public List<SurveyingMethodType> getSurveyingMethodTypesByIds(List<String> ids) {
+        return getRepository().getEntityListByIds(SurveyingMethodType.class, ids);
+    }
+    
+     @Override
+    public List<SurveyingMethodType> getSurveyingMethodTypes(String languageCode) {
+        return getRepository().getCodeList(SurveyingMethodType.class, languageCode);
+    }
+    
 }

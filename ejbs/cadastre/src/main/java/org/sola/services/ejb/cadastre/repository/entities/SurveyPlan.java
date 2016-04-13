@@ -79,7 +79,7 @@ public class SurveyPlan extends AbstractVersionedEntity {
     @Column(name = "state_land_clearing_officer")
     private String nameofSLCO;
       
-//Getters and Setters
+//Getters and Setters s
     public String getId() {
         return id;
     }

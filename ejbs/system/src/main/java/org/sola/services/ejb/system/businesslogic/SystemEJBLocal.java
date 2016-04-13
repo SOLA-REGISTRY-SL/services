@@ -56,6 +56,7 @@ public interface SystemEJBLocal extends AbstractEJBLocal {
      * SystemEJB.getTaxRate}
      */
     BigDecimal getTaxRate();
+    //String getCordinateSysteType();
 
     /**
      * See {@linkplain SystemEJB#getAllSettings() SystemEJB.getAllSettings}
@@ -233,4 +234,17 @@ public interface SystemEJBLocal extends AbstractEJBLocal {
     
     /** See {@link SystemEJB#saveConfigMapLayer(ConfigMapLayer mapLayer)}*/
     ConfigMapLayer saveConfigMapLayer(ConfigMapLayer mapLayer);
+    
+   /* //COrdinat system
+    List<CordinateSystemType> getCordinateSystems();
+
+    String getCordinateSystem(String code, String defaultValue);
+    
+    /**
+   //  * Returns cordinatesSstemType, by given name
+   //  * @param code Setting name
+   //  * @return 
+   //  */
+   // Setting getCordinateSystem(String code);
+    
 }
