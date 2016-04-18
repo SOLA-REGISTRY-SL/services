@@ -248,4 +248,9 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     List<ChiefdomType> getChiefdomTypes(String languageCode);
 
     List<ChiefdomType> getChiefdomTypesByIds(List<String> ids);
+    
+     //LandType
+    List<LandType> getLandTypes(String languageCode);
+
+    List<LandType> getLandTypesByIds(List<String> ids);
 }

@@ -8,13 +8,14 @@ import javax.persistence.Table;
 import org.sola.services.common.repository.DefaultSorter;
 import org.sola.services.common.repository.entities.AbstractCodeEntity;
 /**
- *
- * @author Moses VB
+ * Entity representing the cadastre.chiefdoms_type code table.
+ * @author soladev
  */
  @Table(name = "chiefdoms_type", schema = "cadastre")
 @DefaultSorter(sortString="display_value")
 public class ChiefdomType extends AbstractCodeEntity {
-    public ChiefdomType()
+   
+     public ChiefdomType()
     {
         super();
     }

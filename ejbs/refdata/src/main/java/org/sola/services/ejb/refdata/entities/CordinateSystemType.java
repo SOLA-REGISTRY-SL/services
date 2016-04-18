@@ -10,8 +10,8 @@ import org.sola.services.common.repository.DefaultSorter;
 import org.sola.services.common.repository.entities.AbstractCodeEntity;
 
 /**
- * Entity representing the cordinateSystemType table. 
- * @author Moses VB
+ * Entity representing the system.cordinate_system_type code table.
+ * @author soladev
  */
 @Table(name = "cordinate_system_type", schema = "system")
 @DefaultSorter(sortString="display_value")
