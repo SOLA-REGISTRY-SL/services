@@ -28,18 +28,13 @@
 package org.sola.services.ejb.cadastre.repository.entities;
 
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.sola.services.common.LocalInfo;
 import org.sola.services.common.repository.AccessFunctions;
-import org.sola.services.common.repository.ChildEntityList;
-import org.sola.services.common.repository.ExternalEJB;
 import org.sola.services.common.repository.entities.AbstractReadOnlyEntity;
 import org.sola.services.common.repository.entities.AbstractVersionedEntity;
-import org.sola.services.ejb.address.businesslogic.AddressEJBLocal;
-import org.sola.services.ejb.address.repository.entities.Address;
 
 /**
  * Entity representing the cadastre.cadastre_object table.
@@ -124,14 +119,36 @@ public class CadastreObject extends AbstractVersionedEntity {
     @AccessFunctions(onSelect = "st_asewkb(geom_polygon)",
     onChange = "get_geometry_with_srid(#{geomPolygon})")
     private byte[] geomPolygon;
-    @ChildEntityList(parentIdField = "spatialUnitId")
-    private List<SpatialValueArea> spatialValueAreaList;
     @Column(name = "land_use_code")
     private String landUseCode;
-    @ExternalEJB(ejbLocalClass = AddressEJBLocal.class, loadMethod = "getAddresses", saveMethod="saveAddress")
-    @ChildEntityList(parentIdField = "cadastreObjectId", childIdField = "addressId",
-    manyToManyClass = AddressForCadastreObject.class)
-    private List<Address> addressList;
+    @Column(name = "owner_name")
+    private String ownerName;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "land_type")
+    private String landType;
+    @Column(name = "parcel_area")
+    private double parcelArea;
+    @Column(name = "licensed_surveyor_id")
+    private String licensedSurveyorId;
+    @Column(name = "east_neighbour")
+    private String eastNeighbour;
+    @Column(name = "west_neighbour")
+    private String westNeighbour;
+    @Column(name = "south_neighbour")
+    private String southNeighbour;
+    @Column(name = "north_neighbour")
+    private String northNeighbour;
+    @Column(name = "survey_method")
+    private String surveyMethod;
+    @Column(name = "survey_date")
+    private String surveyDate;
+    @Column(name = "beacon_number")
+    private String beaconNumber;
+    @Column(name = "charting_officer_id")
+    private String chartingOfficerId;
+    @Column(name = "state_land_clearing_officer_id")
+    private String stateLandClearingOfficerId;
     
     public String getLandUseCode() {
         return landUseCode;
@@ -229,23 +246,118 @@ public class CadastreObject extends AbstractVersionedEntity {
         this.typeCode = typeCode;
     }
 
-    public List<SpatialValueArea> getSpatialValueAreaList() {
-        // Loaded eagerly by the CommonRepository
-        return spatialValueAreaList;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setSpatialValueAreaList(List<SpatialValueArea> spatialValueAreaList) {
-        this.spatialValueAreaList = spatialValueAreaList;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
-    public List<Address> getAddressList() {
-        return addressList;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
+    public void setAddress(String address) {
+        this.address = address;
     }
-    
+
+    public String getLandType() {
+        return landType;
+    }
+
+    public void setLandType(String landType) {
+        this.landType = landType;
+    }
+
+    public double getParcelArea() {
+        return parcelArea;
+    }
+
+    public void setParcelArea(double parcelArea) {
+        this.parcelArea = parcelArea;
+    }
+
+    public String getLicensedSurveyorId() {
+        return licensedSurveyorId;
+    }
+
+    public void setLicensedSurveyorId(String licensedSurveyorId) {
+        this.licensedSurveyorId = licensedSurveyorId;
+    }
+
+    public String getEastNeighbour() {
+        return eastNeighbour;
+    }
+
+    public void setEastNeighbour(String eastNeighbour) {
+        this.eastNeighbour = eastNeighbour;
+    }
+
+    public String getWestNeighbour() {
+        return westNeighbour;
+    }
+
+    public void setWestNeighbour(String westNeighbour) {
+        this.westNeighbour = westNeighbour;
+    }
+
+    public String getSouthNeighbour() {
+        return southNeighbour;
+    }
+
+    public void setSouthNeighbour(String southNeighbour) {
+        this.southNeighbour = southNeighbour;
+    }
+
+    public String getNorthNeighbour() {
+        return northNeighbour;
+    }
+
+    public void setNorthNeighbour(String northNeighbour) {
+        this.northNeighbour = northNeighbour;
+    }
+
+    public String getSurveyMethod() {
+        return surveyMethod;
+    }
+
+    public void setSurveyMethod(String surveyMethod) {
+        this.surveyMethod = surveyMethod;
+    }
+
+    public String getSurveyDate() {
+        return surveyDate;
+    }
+
+    public void setSurveyDate(String surveyDate) {
+        this.surveyDate = surveyDate;
+    }
+
+    public String getBeaconNumber() {
+        return beaconNumber;
+    }
+
+    public void setBeaconNumber(String beaconNumber) {
+        this.beaconNumber = beaconNumber;
+    }
+
+    public String getChartingOfficerId() {
+        return chartingOfficerId;
+    }
+
+    public void setChartingOfficerId(String chartingOfficerId) {
+        this.chartingOfficerId = chartingOfficerId;
+    }
+
+    public String getStateLandClearingOfficerId() {
+        return stateLandClearingOfficerId;
+    }
+
+    public void setStateLandClearingOfficerId(String stateLandClearingOfficerId) {
+        this.stateLandClearingOfficerId = stateLandClearingOfficerId;
+    }
+
     @Override
     public String getClassificationCode() {
         return classificationCode;
