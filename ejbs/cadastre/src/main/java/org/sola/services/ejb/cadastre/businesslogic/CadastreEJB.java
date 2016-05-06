@@ -98,7 +98,7 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<CadastreObject> getCadastreObjects(List<String> cadastreObjIds) {
         return getRepository().getEntityListByIds(CadastreObject.class, cadastreObjIds);
     }
-
+    
     /**
      * Returns a maximum of 30 cadastre objects that have a name first part
      * and/or name last part that matches the specified search string. This
@@ -693,4 +693,27 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         return getRepository().getCodeList(LandType.class, languageCode);
     }
     
+    
+    //SurveyPlanView
+    /*@Override
+    public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String languageCode) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, languageCode);
+        return getRepository().getEntityList(SurveyPlanListReturnReport.class,
+                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, params);
+    }
+    */
+    
+    //
+    @Override
+    @RolesAllowed(RolesConstants.CADASTRE_SURVEY_PLAN_LIST)
+    public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, String languageCode) {
+
+       // this.validatePublicDisplay(searchString, languageCode); //Having issues with this method for validation
+        HashMap params = new HashMap();
+        params.put("search_string", searchString);
+        return getRepository().getEntityList(SurveyPlanListReturnReport.class,
+                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, params);
+    }
 }
+

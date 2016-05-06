@@ -214,7 +214,7 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     List<SpatialUnit> getSpatialUnits(
             byte[] filteringGeometry, String levelId, Integer srid);
 
-    /**
+    /** 
      * see {@linkplain CadastreEJB#saveSpatialUnits(List<SpatialUnit>, String)
      * CadastreEJB.saveSpatialUnits}
      */
@@ -253,4 +253,11 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     List<LandType> getLandTypes(String languageCode);
 
     List<LandType> getLandTypesByIds(List<String> ids);
+    
+    
+    //Survey plan view report
+     //Get or search survey Plan by id
+   // List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(List<String> ids);
+    List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, String languageCode);
+   // List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String languageCode);
 }

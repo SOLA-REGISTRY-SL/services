@@ -6,21 +6,29 @@ import javax.persistence.Table;
 import org.sola.services.common.repository.entities.AbstractVersionedEntity;
 
 /**
- * Survey plan details
+ * Survey plan view for reporting........
  */
-@Table(name = "survey_plan_details", schema = "cadastre")
+@Table(name = "survey_plan_view", schema = "cadastre")
 /**
  *
  * @author soladev
  */
-public class SurveyPlan extends AbstractVersionedEntity {
+public class SurveyPlanListReturnReport extends AbstractVersionedEntity {
   public static String WHERE_CONDITION = "id = #{id}";
            
+    /**
+     * WHERE clause to return the survey plan by transaction id
+     */
+  //To be corrected for the sql querry
+   public static final String QUERY_WHERE_SEARCHBYPARTS = "status_code= 'current' and "
+            + "compare_strings(#{search_string}, name_firstpart || ' ' || name_lastpart)";
+   
     //Constructor
-    public SurveyPlan() {
+    public SurveyPlanListReturnReport() {
         super();
     }
-//Columns of Database fields
+    
+    //Columns of Database fields
     @Id
     @Column
     private String id;
@@ -78,150 +86,87 @@ public class SurveyPlan extends AbstractVersionedEntity {
      
     @Column(name = "state_land_clearing_officer")
     private String nameofSLCO;
-      
-//Getters and Setters s
+
+    public static String getWHERE_CONDITION() {
+        return WHERE_CONDITION;
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
- 
     public String getLSNo() {
         return LSNo;
-    }
-
-    public void setLSNo(String LSNo) {
-        this.LSNo = LSNo;
     }
 
     public String getNameofOwner() {
         return nameofOwner;
     }
 
-    public void setNameofOwner(String nameofOwner) {
-        this.nameofOwner = nameofOwner;
-    }
- 
     public String getPropertyNameofStreet() {
         return propertyNameofStreet;
-    }
-
-    public void setPropertyNameofStreet(String propertyNameofStreet) {
-        this.propertyNameofStreet = propertyNameofStreet;
     }
 
     public String getPropertyAddressNo() {
         return propertyAddressNo;
     }
 
-    public void setPropertyAddressNo(String propertyAddressNo) {
-        this.propertyAddressNo = propertyAddressNo;
+    public String getLandtype() {
+        return landtype;
     }
 
     public String getAreaOfLand() {
         return areaOfLand;
     }
 
-    public void setAreaOfLand(String areaOfLand) {
-        this.areaOfLand = areaOfLand;
-    }
-
     public String getLandMeasurement() {
         return landMeasurement;
-    }
-
-    public void setLandMeasurement(String landMeasurement) {
-        this.landMeasurement = landMeasurement;
     }
 
     public String getNameofLicenseSurveyor() {
         return nameofLicenseSurveyor;
     }
 
-    public void setNameofLicenseSurveyor(String nameofLicenseSurveyor) {
-        this.nameofLicenseSurveyor = nameofLicenseSurveyor;
-    }
-
     public String getEastNeighborPlotHolder() {
         return eastNeighborPlotHolder;
-    }
-
-    public void setEastNeighborPlotHolder(String eastNeighborPlotHolder) {
-        this.eastNeighborPlotHolder = eastNeighborPlotHolder;
     }
 
     public String getWestNeighborPlotHolder() {
         return westNeighborPlotHolder;
     }
 
-    public void setWestNeighborPlotHolder(String westNeighborPlotHolder) {
-        this.westNeighborPlotHolder = westNeighborPlotHolder;
-    }
-
     public String getNorthNeighborPlotHolder() {
         return northNeighborPlotHolder;
-    }
-
-    public void setNorthNeighborPlotHolder(String northNeighborPlotHolder) {
-        this.northNeighborPlotHolder = northNeighborPlotHolder;
     }
 
     public String getSouthNeighborPlotHolder() {
         return southNeighborPlotHolder;
     }
 
-    public void setSouthNeighborPlotHolder(String southNeighborPlotHolder) {
-        this.southNeighborPlotHolder = southNeighborPlotHolder;
-    }
-
     public String getSurveyingMethod() {
         return surveyingMethod;
-    }
-
-    public void setSurveyingMethod(String surveyingMethod) {
-        this.surveyingMethod = surveyingMethod;
     }
 
     public String getDirectorofSurveys() {
         return directorofSurveys;
     }
 
-    public void setDirectorofSurveys(String directorofSurveys) {
-        this.directorofSurveys = directorofSurveys;
-    }
-
     public String getDateSurveyed() {
         return DateSurveyed;
-    }
-
-    public void setDateSurveyed(String DateSurveyed) {
-        this.DateSurveyed = DateSurveyed;
     }
 
     public String getBeaconNumber() {
         return beaconNumber;
     }
 
-    public void setBeaconNumber(String beaconNumber) {
-        this.beaconNumber = beaconNumber;
-    }
-
     public String getNameofCO() {
         return nameofCO;
-    }
-
-    public void setNameofCO(String nameofCO) {
-        this.nameofCO = nameofCO;
     }
 
     public String getNameofSLCO() {
         return nameofSLCO;
     }
-
-    public void setNameofSLCO(String nameofSLCO) {
-        this.nameofSLCO = nameofSLCO;
-    }
- 
+    
+    
 }
+
