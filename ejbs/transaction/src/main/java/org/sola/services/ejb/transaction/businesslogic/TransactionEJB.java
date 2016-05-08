@@ -380,7 +380,8 @@ public class TransactionEJB extends AbstractEJB implements TransactionEJBLocal {
 
         List<BrValidation> brValidationList = null;
         if (requestType.equals(TransactionType.CADASTRE_CHANGE)
-                || requestType.equals(TransactionType.REDEFINE_CADASTRE)) {
+                || requestType.equals(TransactionType.REDEFINE_CADASTRE) 
+                || requestType.equalsIgnoreCase(TransactionType.NEW_PARCEL)) {
             brValidationList = this.systemEJB.getBrForValidatingTransaction(
                     "cadastre_object", momentCode, requestType);
         } else if (requestType.equals(TransactionType.BULK_OPERATION_SPATIAL)) {
