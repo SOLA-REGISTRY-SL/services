@@ -47,8 +47,6 @@ import org.sola.services.common.repository.ExternalEJB;
 import org.sola.services.common.repository.entities.AbstractVersionedEntity;
 import org.sola.services.ejb.address.businesslogic.AddressEJBLocal;
 import org.sola.services.ejb.address.repository.entities.Address;
-import org.sola.services.ejb.source.businesslogic.SourceEJBLocal;
-import org.sola.services.ejb.source.repository.entities.Source;
 import org.sola.services.common.repository.Redact;
 import org.sola.services.common.repository.entities.AbstractReadOnlyEntity;
 
@@ -125,11 +123,6 @@ public class Party extends AbstractVersionedEntity {
     private List<GroupParty> groupList;
     @Column(name = "party.is_rightholder(id) AS is_rightholder", insertable = false, updatable = false)
     private boolean rightHolder;
-    @ExternalEJB(ejbLocalClass = SourceEJBLocal.class,
-    loadMethod = "getSources", saveMethod = "saveSource")
-    @ChildEntityList(parentIdField = "partyId", childIdField = "sourceId",
-    manyToManyClass = SourceDescribesParty.class)
-    private List<Source> sourceList;
     @Column(name = AbstractReadOnlyEntity.CLASSIFICATION_CODE_COLUMN_NAME)
     private String classificationCode;
     @Column(name = AbstractReadOnlyEntity.REDACT_CODE_COLUMN_NAME)
@@ -148,14 +141,6 @@ public class Party extends AbstractVersionedEntity {
 
     public void setGroupList(List<GroupParty> groupList) {
         this.groupList = groupList;
-    }
-
-    public List<Source> getSourceList() {
-        return sourceList;
-    }
-
-    public void setSourceList(List<Source> sourceList) {
-        this.sourceList = sourceList;
     }
 
     public String getId() {

@@ -42,8 +42,6 @@ import org.sola.services.common.ejbs.AbstractEJB;
 import org.sola.services.common.repository.CommonSqlProvider;
 import org.sola.services.ejb.address.repository.entities.Address;
 import org.sola.services.ejb.party.repository.entities.*;
-import org.sola.services.ejb.transaction.businesslogic.TransactionEJBLocal;
-import org.sola.services.ejb.transaction.repository.entities.TransactionBasic;
 
 /**
  * EJB to manage data in the party schema. Supports retrieving and saving party
@@ -52,9 +50,6 @@ import org.sola.services.ejb.transaction.repository.entities.TransactionBasic;
 @Stateless
 @EJB(name = "java:app/PartyEJBLocal", beanInterface = PartyEJBLocal.class)
 public class PartyEJB extends AbstractEJB implements PartyEJBLocal {
-
-    @EJB
-    private TransactionEJBLocal transactionEJB;
 
     /**
      * Sets the entity package for the EJB to
@@ -246,11 +241,6 @@ public class PartyEJB extends AbstractEJB implements PartyEJBLocal {
     @RolesAllowed({RolesConstants.PARTY_SAVE, RolesConstants.PARTY_RIGHTHOLDERS_SAVE,
         RolesConstants.APPLICATION_EDIT_APPS, RolesConstants.APPLICATION_CREATE_APPS})
     public PartyMember savePartyMember(PartyMember partyMember, String serviceId) {
-
-        TransactionBasic transaction =
-                transactionEJB.getTransactionByServiceId(serviceId, true, TransactionBasic.class);
-        LocalInfo.setTransactionId(transaction.getId());
-
         return getRepository().saveEntity(partyMember);
     }
 }
