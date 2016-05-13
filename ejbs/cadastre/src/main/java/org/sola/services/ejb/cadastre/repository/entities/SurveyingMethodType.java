@@ -16,7 +16,7 @@ import org.sola.services.common.repository.entities.AbstractVersionedEntity;
  * Entity representing the system.surveying_method_type code table.
  * @author soladev
  */
- @Table(name = "surveying_method_type", schema = "system")
+ @Table(name = "surveying_method_type", schema = "cadastre")
 @DefaultSorter(sortString="display_value")
 public class SurveyingMethodType extends AbstractCodeEntity{
 
