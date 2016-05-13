@@ -122,6 +122,12 @@ public interface SearchEJBLocal extends AbstractEJBLocal {
      * SearchEJB.searchParties}.
      */
     List<PartySearchResult> searchParties(PartySearchParams searchParams);
+    
+    /**
+     * See {@linkplain SearchEJB#searchPartiesByRole(java.lang.String)
+     * SearchEJB.searchPartiesByRole}.
+     */
+    List<PartySearchResult> searchPartiesByRole(String roleCode);
      
     /**
      * See {@linkplain SearchEJB#searchPartiesProperty(org.sola.services.ejb.search.repository.entities.PartySearchParams)

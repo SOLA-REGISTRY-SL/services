@@ -43,7 +43,7 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
     public static final String QUERY_PARAM_TYPE_CODE = "typeCode";
     public static final String QUERY_PARAM_ROLE_TYPE_CODE = "roleTypeCode";
     public static final String SEARCH_QUERY =
-            "SELECT distinct p.id, p.name, p.last_name, p.ext_id, p.type_code, "
+            "SELECT distinct p.id, p.name, p.last_name, p.ext_id, p.type_code, p.id_number, "
             + "(SELECT CASE (SELECT COUNT(1) FROM administrative.party_for_rrr ap "
             + "WHERE ap.party_id = p.id) WHEN 0 THEN false ELSE true END) AS is_rightholder, "
             + "(SELECT string_agg(get_translation(r.display_value, #{" + CommonSqlProvider.PARAM_LANGUAGE_CODE + "}), ', ') "
@@ -59,6 +59,20 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
             + "AND POSITION(LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) in LOWER(COALESCE(pr.type_code, ''))) > 0 "
             + "ORDER BY p.name, p.last_name "
             + "LIMIT 101";
+    public static final String SEARCH_BY_ROLE_QUERY =
+            "SELECT distinct p.id, p.name, p.last_name, p.ext_id, p.type_code, p.id_number, "
+            + "(SELECT CASE (SELECT COUNT(1) FROM administrative.party_for_rrr ap "
+            + "WHERE ap.party_id = p.id) WHEN 0 THEN false ELSE true END) AS is_rightholder, "
+            + "(SELECT string_agg(get_translation(r.display_value, #{" + CommonSqlProvider.PARAM_LANGUAGE_CODE + "}), ', ') "
+            + "FROM party.party_role_type r "
+            + "INNER JOIN party.party_role pr2 ON r.code = pr2.type_code "
+            + "WHERE pr2.party_id = p.id) as roles, "
+            + "p.classification_code, p.redact_code "
+            + "FROM party.party p LEFT JOIN party.party_role pr ON p.id = pr.party_id "
+            + "WHERE POSITION(LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) in LOWER(COALESCE(pr.type_code, ''))) > 0 "
+            + "ORDER BY p.name, p.last_name "
+            + "LIMIT 101";
+    
     @Id
     @Column
     private String id;
@@ -68,6 +82,8 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
     private String lastName;
     @Column(name = "ext_id")
     private String extId;
+    @Column(name = "id_number")
+    private String idNumber;
     @Column(name = "type_code")
     private String typeCode;
     @Column(name = "is_rightholder")
@@ -113,6 +129,14 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public String getTypeCode() {

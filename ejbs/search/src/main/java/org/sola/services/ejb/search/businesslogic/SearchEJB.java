@@ -500,6 +500,20 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
         return getRepository().getEntityList(PartySearchResult.class, params);
     }
     
+    /**
+     * Searches parties by provided role code.
+     *
+     * @param roleCode Party role code.
+     * @return A maximum of 101 parties that match the search criteria.
+     */
+    @Override
+    public List<PartySearchResult> searchPartiesByRole(String roleCode){
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, null);
+        params.put(CommonSqlProvider.PARAM_QUERY, PartySearchResult.SEARCH_BY_ROLE_QUERY);
+        params.put(PartySearchResult.QUERY_PARAM_ROLE_TYPE_CODE, roleCode);
+        return getRepository().getEntityList(PartySearchResult.class, params);
+    }
     
       /**
      * Executes a search across all parties using the search criteria provided.

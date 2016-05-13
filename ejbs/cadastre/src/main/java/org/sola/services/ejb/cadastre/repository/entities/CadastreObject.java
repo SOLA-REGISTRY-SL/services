@@ -33,8 +33,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.sola.services.common.LocalInfo;
 import org.sola.services.common.repository.AccessFunctions;
+import org.sola.services.common.repository.ChildEntity;
+import org.sola.services.common.repository.ExternalEJB;
 import org.sola.services.common.repository.entities.AbstractReadOnlyEntity;
 import org.sola.services.common.repository.entities.AbstractVersionedEntity;
+import org.sola.services.ejb.party.businesslogic.PartyEJBLocal;
+import org.sola.services.ejb.party.repository.entities.Party;
 
 /**
  * Entity representing the cadastre.cadastre_object table.
@@ -126,11 +130,14 @@ public class CadastreObject extends AbstractVersionedEntity {
     @Column(name = "address")
     private String address;
     @Column(name = "land_type")
-    private String landType;
+    private String landTypeCode;
     @Column(name = "parcel_area")
     private double parcelArea;
     @Column(name = "licensed_surveyor_id")
     private String licensedSurveyorId;
+    @ExternalEJB(ejbLocalClass = PartyEJBLocal.class, loadMethod = "getParty")
+    @ChildEntity(childIdField = "licensedSurveyorId")
+    private Party licensedSurveyor;
     @Column(name = "east_neighbour")
     private String eastNeighbour;
     @Column(name = "west_neighbour")
@@ -140,15 +147,23 @@ public class CadastreObject extends AbstractVersionedEntity {
     @Column(name = "north_neighbour")
     private String northNeighbour;
     @Column(name = "survey_method")
-    private String surveyMethod;
+    private String surveyMethodCode;
     @Column(name = "survey_date")
-    private String surveyDate;
+    private Date surveyDate;
+    @Column(name = "chiefdom_type")
+    private String chiefdomTypeCode;
     @Column(name = "beacon_number")
     private String beaconNumber;
     @Column(name = "charting_officer_id")
     private String chartingOfficerId;
+    @ExternalEJB(ejbLocalClass = PartyEJBLocal.class, loadMethod = "getParty")
+    @ChildEntity(childIdField = "chartingOfficerId")
+    private Party chartingOfficer;
     @Column(name = "state_land_clearing_officer_id")
     private String stateLandClearingOfficerId;
+    @ExternalEJB(ejbLocalClass = PartyEJBLocal.class, loadMethod = "getParty")
+    @ChildEntity(childIdField = "stateLandClearingOfficerId")
+    private Party stateLandClearingOfficer;
     
     public String getLandUseCode() {
         return landUseCode;
@@ -262,12 +277,12 @@ public class CadastreObject extends AbstractVersionedEntity {
         this.address = address;
     }
 
-    public String getLandType() {
-        return landType;
+    public String getLandTypeCode() {
+        return landTypeCode;
     }
 
-    public void setLandType(String landType) {
-        this.landType = landType;
+    public void setLandTypeCode(String landTypeCode) {
+        this.landTypeCode = landTypeCode;
     }
 
     public double getParcelArea() {
@@ -318,19 +333,19 @@ public class CadastreObject extends AbstractVersionedEntity {
         this.northNeighbour = northNeighbour;
     }
 
-    public String getSurveyMethod() {
-        return surveyMethod;
+    public String getSurveyMethodCode() {
+        return surveyMethodCode;
     }
 
-    public void setSurveyMethod(String surveyMethod) {
-        this.surveyMethod = surveyMethod;
+    public void setSurveyMethodCode(String surveyMethodCode) {
+        this.surveyMethodCode = surveyMethodCode;
     }
 
-    public String getSurveyDate() {
+    public Date getSurveyDate() {
         return surveyDate;
     }
 
-    public void setSurveyDate(String surveyDate) {
+    public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
 
@@ -375,6 +390,38 @@ public class CadastreObject extends AbstractVersionedEntity {
     public void setRedactCode(String redactCode) {
         this.redactCode = redactCode;
     }  
+
+    public Party getLicensedSurveyor() {
+        return licensedSurveyor;
+    }
+
+    public void setLicensedSurveyor(Party licensedSurveyor) {
+        this.licensedSurveyor = licensedSurveyor;
+    }
+
+    public Party getChartingOfficer() {
+        return chartingOfficer;
+    }
+
+    public void setChartingOfficer(Party chartingOfficer) {
+        this.chartingOfficer = chartingOfficer;
+    }
+
+    public Party getStateLandClearingOfficer() {
+        return stateLandClearingOfficer;
+    }
+
+    public void setStateLandClearingOfficer(Party stateLandClearingOfficer) {
+        this.stateLandClearingOfficer = stateLandClearingOfficer;
+    }
+
+    public String getChiefdomTypeCode() {
+        return chiefdomTypeCode;
+    }
+
+    public void setChiefdomTypeCode(String chiefdomTypeCode) {
+        this.chiefdomTypeCode = chiefdomTypeCode;
+    }
 
     /**
      * Sets the transaction Id on the entity prior to save.
