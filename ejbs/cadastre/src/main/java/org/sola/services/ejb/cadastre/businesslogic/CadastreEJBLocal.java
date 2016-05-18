@@ -256,8 +256,7 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     
     
     //Survey plan view report
-     //Get or search survey Plan by id
-   // List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(List<String> ids);
-    List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, String languageCode);
-   // List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String languageCode);
+    
+    List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, SurveyPlanListReturnReportParams params, String languageCode);
+    
 }

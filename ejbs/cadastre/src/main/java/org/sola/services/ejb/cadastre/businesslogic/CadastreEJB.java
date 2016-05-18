@@ -28,6 +28,7 @@
 package org.sola.services.ejb.cadastre.businesslogic;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -707,13 +708,26 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     //
     @Override
     @RolesAllowed(RolesConstants.CADASTRE_SURVEY_PLAN_LIST)
-    public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, String languageCode) {
-
+    public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, SurveyPlanListReturnReportParams params, String languageCode) {
+       List<SurveyPlanListReturnReport> result;
        // this.validatePublicDisplay(searchString, languageCode); //Having issues with this method for validation
-        HashMap params = new HashMap();
-        params.put("search_string", searchString);
-        return getRepository().getEntityList(SurveyPlanListReturnReport.class,
-                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, params);
+//        HashMap hashparams = new HashMap();
+//        hashparams.put("search_string", searchString);
+//        return getRepository().getEntityList(SurveyPlanListReturnReport.class,
+//                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, hashparams);
+        
+       Map queryParams = new HashMap<String, Object>();
+        queryParams.put(CommonSqlProvider.PARAM_WHERE_PART, SurveyPlanListReturnReport.QUERY_GETQUERY);
+
+        queryParams.put(SurveyPlanListReturnReport.PARAMETER_FROM,
+                params.getFromDate() == null ? new GregorianCalendar(1, 1, 1).getTime() : params.getFromDate());
+        queryParams.put(SurveyPlanListReturnReport.PARAMETER_TO,
+                params.getToDate() == null ? new GregorianCalendar(2500, 1, 1).getTime() : params.getToDate());
+        queryParams.put("search_string", searchString);
+//        result = getRepository().getEntityList(SurveyPlanListReturnReport.class,
+//                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, queryParams);
+        result = getRepository().getEntityList(SurveyPlanListReturnReport.class, queryParams);
+        return result;
     }
 }
 

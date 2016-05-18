@@ -3,7 +3,7 @@ package org.sola.services.ejb.cadastre.repository.entities;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.sola.services.common.repository.entities.AbstractVersionedEntity;
+import org.sola.services.common.repository.entities.AbstractReadOnlyEntity;
 
 /**
  * Survey plan view for reporting........
@@ -13,21 +13,31 @@ import org.sola.services.common.repository.entities.AbstractVersionedEntity;
  *
  * @author soladev
  */
-public class SurveyPlanListReturnReport extends AbstractVersionedEntity {
-  public static String WHERE_CONDITION = "id = #{id}";
-           
+public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
+
+    public static final String QUERY_PARAMETER_ID = "id";
+    public static final String QUERY_WHERE_BYID = "id = #{" + QUERY_PARAMETER_ID + "}";
     /**
      * WHERE clause to return the survey plan by transaction id
      */
   //To be corrected for the sql querry
-   public static final String QUERY_WHERE_SEARCHBYPARTS = "status_code= 'current' and "
+
+    public static final String PARAMETER_FROM = "fromDate";
+    public static final String PARAMETER_TO = "toDate";
+
+    public static final String QUERY_WHERE_SEARCHBYPARTS = "status_code= 'current' and "
             + "compare_strings(#{search_string}, name_firstpart || ' ' || name_lastpart)";
-   
+
+    public static final String QUERY_GETQUERY = " ("
+            + "(aa.lodging_datetime  between to_date(#{" + PARAMETER_FROM + "},''yyyy-mm-dd'')  and to_date(#{" + PARAMETER_TO + "},''yyyy-mm-dd''))\n"
+            + "		           or\n"
+            + "		          (aa.change_time  between to_date(#{" + PARAMETER_FROM + "},''yyyy-mm-dd'')  and to_date(#{" + PARAMETER_TO + "},''yyyy-mm-dd'')))";
+
     //Constructor
     public SurveyPlanListReturnReport() {
         super();
     }
-    
+
     //Columns of Database fields
     @Id
     @Column
@@ -38,59 +48,56 @@ public class SurveyPlanListReturnReport extends AbstractVersionedEntity {
 
     @Column(name = "owner_name")
     private String nameofOwner;
- 
+
     @Column(name = "name_of_street")
     private String propertyNameofStreet;
-    
+
     @Column(name = "address_nr")
     private String propertyAddressNo;
-    
-     @Column(name = "land_type")
+
+    @Column(name = "land_type")
     private String landtype;
-     
+
     @Column(name = "land_area")
     private String areaOfLand;
-    
+
     @Column(name = "land_measurement")
     private String landMeasurement;
-    
+
     @Column(name = "license_surveyor_name")
     private String nameofLicenseSurveyor;
-    
+
     @Column(name = "east_neighbour")
     private String eastNeighborPlotHolder;
-    
+
     @Column(name = "west_neighbour")
     private String westNeighborPlotHolder;
-    
+
     @Column(name = "north_neighbour")
     private String northNeighborPlotHolder;
-    
+
     @Column(name = "south_neighbour")
     private String southNeighborPlotHolder;
-    
+
     @Column(name = "survey_method")
     private String surveyingMethod;
-    
+
     @Column(name = "director_of_survey")
     private String directorofSurveys;
-    
+
     @Column(name = "date_surveyed")
     private String DateSurveyed;
-    
+
     @Column(name = "beacon_number")
     private String beaconNumber;
-    
+
     @Column(name = "charting_officer_name")
     private String nameofCO;
-     
+
     @Column(name = "state_land_clearing_officer")
     private String nameofSLCO;
 
-    public static String getWHERE_CONDITION() {
-        return WHERE_CONDITION;
-    }
-
+//   
     public String getId() {
         return id;
     }
@@ -166,7 +173,5 @@ public class SurveyPlanListReturnReport extends AbstractVersionedEntity {
     public String getNameofSLCO() {
         return nameofSLCO;
     }
-    
-    
-}
 
+}
