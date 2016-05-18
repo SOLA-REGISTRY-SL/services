@@ -235,6 +235,7 @@ public class TransactionEJB extends AbstractEJB implements TransactionEJBLocal {
         }
         if (requestType.equals(TransactionType.CADASTRE_CHANGE)
                 || requestType.equals(TransactionType.MAP_EXISTINGPARCEL)
+                || requestType.equals(TransactionType.NEW_PARCEL)
                 || requestType.equals(TransactionType.NEW_APARTMENT)
                 || requestType.equals(TransactionType.NEW_DIGITAL_PROPERTY)
                 || requestType.equals(TransactionType.NEW_DIGITAL_TITLE)
