@@ -1,5 +1,6 @@
 package org.sola.services.ejb.cadastre.repository.entities;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -28,10 +29,8 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
     public static final String QUERY_WHERE_SEARCHBYPARTS = "status_code= 'current' and "
             + "compare_strings(#{search_string}, name_firstpart || ' ' || name_lastpart)";
 
-    public static final String QUERY_GETQUERY = " ("
-            + "(aa.lodging_datetime  between to_date(#{" + PARAMETER_FROM + "},''yyyy-mm-dd'')  and to_date(#{" + PARAMETER_TO + "},''yyyy-mm-dd''))\n"
-            + "		           or\n"
-            + "		          (aa.change_time  between to_date(#{" + PARAMETER_FROM + "},''yyyy-mm-dd'')  and to_date(#{" + PARAMETER_TO + "},''yyyy-mm-dd'')))";
+    public static final String QUERY_GETQUERY = "(dsl_date  between to_date(#{" + PARAMETER_FROM + "},'yyyy-mm-dd')  and to_date(#{" + PARAMETER_TO + "},'yyyy-mm-dd'))";
+            
 
     //Constructor
     public SurveyPlanListReturnReport() {
@@ -45,27 +44,18 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
 
     @Column(name = "ls_nr")
     private String LSNo;
-
+   
     @Column(name = "owner_name")
     private String nameofOwner;
 
-    @Column(name = "name_of_street")
-    private String propertyNameofStreet;
-
-    @Column(name = "address_nr")
-    private String propertyAddressNo;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "land_type")
     private String landtype;
 
-    @Column(name = "land_area")
+    @Column(name = "parcel_area")
     private String areaOfLand;
-
-    @Column(name = "land_measurement")
-    private String landMeasurement;
-
-    @Column(name = "license_surveyor_name")
-    private String nameofLicenseSurveyor;
 
     @Column(name = "east_neighbour")
     private String eastNeighborPlotHolder;
@@ -82,21 +72,24 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
     @Column(name = "survey_method")
     private String surveyingMethod;
 
-    @Column(name = "director_of_survey")
-    private String directorofSurveys;
+    @Column(name = "survey_date")
+    private Date DateSurveyed;
+    
+    @Column(name = "license_surveyor")
+    private String nameofLicenseSurveyor;
 
-    @Column(name = "date_surveyed")
-    private String DateSurveyed;
-
-    @Column(name = "beacon_number")
-    private String beaconNumber;
-
-    @Column(name = "charting_officer_name")
-    private String nameofCO;
-
-    @Column(name = "state_land_clearing_officer")
-    private String nameofSLCO;
-
+    @Column(name = "survey_type_code")
+    private String surveyType;
+    
+    @Column(name = "ref_survey")
+    private String rfSurvey;
+    
+    @Column(name = "survey_number")
+    private String surveyNumber;
+    
+    @Column(name = "dsl_date")
+    private Date dslDate;
+        
 //   
     public String getId() {
         return id;
@@ -110,14 +103,7 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return nameofOwner;
     }
 
-    public String getPropertyNameofStreet() {
-        return propertyNameofStreet;
-    }
-
-    public String getPropertyAddressNo() {
-        return propertyAddressNo;
-    }
-
+    
     public String getLandtype() {
         return landtype;
     }
@@ -126,10 +112,7 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return areaOfLand;
     }
 
-    public String getLandMeasurement() {
-        return landMeasurement;
-    }
-
+   
     public String getNameofLicenseSurveyor() {
         return nameofLicenseSurveyor;
     }
@@ -154,24 +137,30 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return surveyingMethod;
     }
 
-    public String getDirectorofSurveys() {
-        return directorofSurveys;
-    }
-
-    public String getDateSurveyed() {
+ 
+    public Date getDateSurveyed() {
         return DateSurveyed;
     }
-
-    public String getBeaconNumber() {
-        return beaconNumber;
+   
+    public String getAddress() {
+        return address;
     }
 
-    public String getNameofCO() {
-        return nameofCO;
+    public String getSurveyType() {
+        return surveyType;
     }
 
-    public String getNameofSLCO() {
-        return nameofSLCO;
+    public String getRfSurvey() {
+        return rfSurvey;
     }
 
+    public String getSurveyNumber() {
+        return surveyNumber;
+    }
+
+    public Date getDslDate() {
+        return dslDate;
+    }
+    
+    
 }
