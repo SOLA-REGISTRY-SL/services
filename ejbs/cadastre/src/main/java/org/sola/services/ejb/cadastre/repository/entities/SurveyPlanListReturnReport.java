@@ -44,7 +44,7 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
 
     @Column(name = "ls_nr")
     private String LSNo;
-   
+
     @Column(name = "owner_name")
     private String nameofOwner;
 
@@ -55,7 +55,7 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
     private String landtype;
 
     @Column(name = "parcel_area")
-    private String areaOfLand;
+    private double areaOfLand;
 
     @Column(name = "east_neighbour")
     private String eastNeighborPlotHolder;
@@ -95,6 +95,12 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
+
     public String getLSNo() {
         return LSNo;
     }
@@ -108,7 +114,7 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return landtype;
     }
 
-    public String getAreaOfLand() {
+    public double getAreaOfLand() {
         return areaOfLand;
     }
 
@@ -162,5 +168,69 @@ public class SurveyPlanListReturnReport extends AbstractReadOnlyEntity {
         return dslDate;
     }
     
+    public void setLSNo(String LSNo) {
+        this.LSNo = LSNo;
+    }
+
+    public void setNameofOwner(String nameofOwner) {
+        this.nameofOwner = nameofOwner;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setLandtype(String landtype) {
+        this.landtype = landtype;
+    }
+
+    public void setAreaOfLand(double areaOfLand) {
+        this.areaOfLand = areaOfLand;
+    }
+
+    public void setEastNeighborPlotHolder(String eastNeighborPlotHolder) {
+        this.eastNeighborPlotHolder = eastNeighborPlotHolder;
+    }
+
+    public void setWestNeighborPlotHolder(String westNeighborPlotHolder) {
+        this.westNeighborPlotHolder = westNeighborPlotHolder;
+    }
+
+    public void setNorthNeighborPlotHolder(String northNeighborPlotHolder) {
+        this.northNeighborPlotHolder = northNeighborPlotHolder;
+    }
+
+    public void setSouthNeighborPlotHolder(String southNeighborPlotHolder) {
+        this.southNeighborPlotHolder = southNeighborPlotHolder;
+    }
+
+    public void setSurveyingMethod(String surveyingMethod) {
+        this.surveyingMethod = surveyingMethod;
+    }
+
+    public void setDateSurveyed(Date DateSurveyed) {
+        this.DateSurveyed = DateSurveyed;
+    }
+
+    public void setNameofLicenseSurveyor(String nameofLicenseSurveyor) {
+        this.nameofLicenseSurveyor = nameofLicenseSurveyor;
+    }
+
+    public void setSurveyType(String surveyType) {
+        this.surveyType = surveyType;
+    }
+
+    public void setRfSurvey(String rfSurvey) {
+        this.rfSurvey = rfSurvey;
+    }
+
+    public void setSurveyNumber(String surveyNumber) {
+        this.surveyNumber = surveyNumber;
+    }
+
+    public void setDslDate(Date dslDate) {
+        this.dslDate = dslDate;
+    }
+     
     
 }
