@@ -165,6 +165,36 @@ public class CadastreObject extends AbstractVersionedEntity {
     @ChildEntity(childIdField = "stateLandClearingOfficerId")
     private Party stateLandClearingOfficer;
     
+    @Column(name="survey_type_code")
+    private String surveyTypeCode;
+    
+    @Column(name="ref_name_firstpart")
+    private String refNameFirstpart;
+    
+    @Column(name="ref_name_lastpart")
+    private String refNameLastpart;
+    
+    @Column(name="survey_number")
+    private String surveyNumber;
+    
+    @Column(name="correspondence_file")
+    private String correspondenceFile;
+    
+    @Column(name="computation_file")
+    private String computationFile;
+    
+    @Column(name="drawn_by")
+    private String drawnBy;
+    
+    @Column(name="checked_by")
+    private String checkedBy;
+    
+    @Column(name="checking_date")
+    private Date checkingDate;
+    
+    @Column(name="dwg_off_no")
+    private String dwgOffNumber;
+    
     public String getLandUseCode() {
         return landUseCode;
     }
@@ -421,6 +451,86 @@ public class CadastreObject extends AbstractVersionedEntity {
 
     public void setChiefdomTypeCode(String chiefdomTypeCode) {
         this.chiefdomTypeCode = chiefdomTypeCode;
+    }
+
+    public String getSurveyTypeCode() {
+        return surveyTypeCode;
+    }
+
+    public void setSurveyTypeCode(String surveyTypeCode) {
+        this.surveyTypeCode = surveyTypeCode;
+    }
+
+    public String getRefNameFirstpart() {
+        return refNameFirstpart;
+    }
+
+    public void setRefNameFirstpart(String refNameFirstpart) {
+        this.refNameFirstpart = refNameFirstpart;
+    }
+
+    public String getRefNameLastpart() {
+        return refNameLastpart;
+    }
+
+    public void setRefNameLastpart(String refNameLastpart) {
+        this.refNameLastpart = refNameLastpart;
+    }
+
+    public String getSurveyNumber() {
+        return surveyNumber;
+    }
+
+    public void setSurveyNumber(String surveyNumber) {
+        this.surveyNumber = surveyNumber;
+    }
+
+    public String getCorrespondenceFile() {
+        return correspondenceFile;
+    }
+
+    public void setCorrespondenceFile(String correspondenceFile) {
+        this.correspondenceFile = correspondenceFile;
+    }
+
+    public String getComputationFile() {
+        return computationFile;
+    }
+
+    public void setComputationFile(String computationFile) {
+        this.computationFile = computationFile;
+    }
+
+    public String getDrawnBy() {
+        return drawnBy;
+    }
+
+    public void setDrawnBy(String drawnBy) {
+        this.drawnBy = drawnBy;
+    }
+
+    public String getCheckedBy() {
+        return checkedBy;
+    }
+
+    public void setCheckedBy(String checkedBy) {
+        this.checkedBy = checkedBy;
+    }
+
+    public Date getCheckingDate() {
+        return checkingDate;
+    }
+
+    public void setCheckingDate(Date checkingDate) {
+        this.checkingDate = checkingDate;
+    }
+
+    public String getDwgOffNumber() {
+        return dwgOffNumber;
+    }
+
+    public void setDwgOffNumber(String dwgOffNumber) {
+        this.dwgOffNumber = dwgOffNumber;
     }
 
     /**

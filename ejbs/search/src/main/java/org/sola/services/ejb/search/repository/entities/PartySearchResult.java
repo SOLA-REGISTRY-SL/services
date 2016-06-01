@@ -69,7 +69,7 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
             + "WHERE pr2.party_id = p.id) as roles, "
             + "p.classification_code, p.redact_code "
             + "FROM party.party p LEFT JOIN party.party_role pr ON p.id = pr.party_id "
-            + "WHERE POSITION(LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) in LOWER(COALESCE(pr.type_code, ''))) > 0 "
+            + "WHERE LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) = LOWER(COALESCE(pr.type_code, '')) "
             + "ORDER BY p.name, p.last_name "
             + "LIMIT 101";
     

@@ -37,6 +37,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.sola.common.RolesConstants;
 import org.sola.common.SOLAException;
+import org.sola.common.StringUtility;
 import org.sola.common.messaging.ServiceMessage;
 import org.sola.services.common.br.ValidationResult;
 import org.sola.services.common.ejbs.AbstractEJB;
@@ -99,7 +100,7 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<CadastreObject> getCadastreObjects(List<String> cadastreObjIds) {
         return getRepository().getEntityListByIds(CadastreObject.class, cadastreObjIds);
     }
-    
+
     /**
      * Returns a maximum of 30 cadastre objects that have a name first part
      * and/or name last part that matches the specified search string. This
@@ -228,9 +229,34 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         }
         HashMap params = new HashMap();
         params.put("transaction_id", transactionId);
-        List<CadastreObjectStatusChanger> involvedCoList =
-                getRepository().getEntityList(CadastreObjectStatusChanger.class, filter, params);
+        List<CadastreObjectStatusChanger> involvedCoList
+                = getRepository().getEntityList(CadastreObjectStatusChanger.class, filter, params);
         for (CadastreObjectStatusChanger involvedCo : involvedCoList) {
+            
+            if (!StringUtility.isEmpty(involvedCo.getSurveyTypeCode())
+                    && (!StringUtility.isEmpty(involvedCo.getRefNameFirstpart())
+                    || !StringUtility.isEmpty(involvedCo.getRefNameLastpart()))) {
+                
+                // Make referenced entity historic
+                if (involvedCo.getSurveyTypeCode().equalsIgnoreCase(SurveyType.CODE_NAME_CHANGE)
+                        || involvedCo.getSurveyTypeCode().equalsIgnoreCase(SurveyType.CODE_RESURVEY_AMENDMENT)
+                        || involvedCo.getSurveyTypeCode().equalsIgnoreCase(SurveyType.CODE_RESURVEY_EXTNSION)) {
+                    params = new HashMap();
+                    params.put("name_firstpart", StringUtility.empty(involvedCo.getRefNameFirstpart()));
+                    params.put("name_lastpart", StringUtility.empty(involvedCo.getRefNameLastpart()));
+                    List<CadastreObjectStatusChanger> referencedCoList
+                            = getRepository().getEntityList(CadastreObjectStatusChanger.class,
+                                    CadastreObjectStatusChanger.QUERY_WHERE_BY_CURRENT_NAME_FIRST_LAST_PART,
+                                    params);
+                    if(referencedCoList != null && referencedCoList.size() > 0){
+                        for (CadastreObjectStatusChanger referencedCo : referencedCoList) {
+                            referencedCo.setStatusCode("historic");
+                            getRepository().saveEntity(referencedCo);
+                        }
+                    }
+                }
+            }
+            
             involvedCo.setStatusCode(statusCode);
             getRepository().saveEntity(involvedCo);
         }
@@ -238,10 +264,12 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
 
     /**
      * Retrieves the list of Cadastre Object Targets associated with the
-     * transaction. <p>Cadastre Object Targets are used to link the cadastre
-     * object to new transactions that may occur on the cadastre object after it
-     * has been initially created - for example the transaction to extinguish
-     * the cadastre object.</p>
+     * transaction.
+     * <p>
+     * Cadastre Object Targets are used to link the cadastre object to new
+     * transactions that may occur on the cadastre object after it has been
+     * initially created - for example the transaction to extinguish the
+     * cadastre object.</p>
      *
      * @param transactionId The identifier of the transaction
      */
@@ -373,8 +401,9 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
 
     /**
      * Retrieves all Cadastre Object Node Targets associated to the transaction.
-     * <p>A Cadastre Object Node Target</p> is used to identify the nodes that
-     * have been added, moved or removed as part of a redefinition transaction.
+     * <p>
+     * A Cadastre Object Node Target</p> is used to identify the nodes that have
+     * been added, moved or removed as part of a redefinition transaction.
      * </p>
      *
      * @param transactionId The identifier of the transaction
@@ -416,19 +445,19 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     @Override
     @RolesAllowed({RolesConstants.APPLICATION_APPROVE, RolesConstants.APPLICATION_SERVICE_COMPLETE})
     public void approveCadastreRedefinition(String transactionId) {
-        List<CadastreObjectTargetRedefinition> targetObjectList =
-                this.getCadastreObjectRedefinitionTargetsByTransaction(transactionId);
+        List<CadastreObjectTargetRedefinition> targetObjectList
+                = this.getCadastreObjectRedefinitionTargetsByTransaction(transactionId);
 
         if (!this.isInRole(RolesConstants.CADASTRE_PARCEL_SAVE)) {
             // Along with one of the above 2 roles, the user must also have the Save Parcel role 
             // to run this method. 
             throw new SOLAException(ServiceMessage.EXCEPTION_INSUFFICIENT_RIGHTS);
         }
-        
+
         for (CadastreObjectTargetRedefinition targetObject : targetObjectList) {
-            CadastreObjectStatusChanger cadastreObject =
-                    this.getRepository().getEntity(CadastreObjectStatusChanger.class,
-                    targetObject.getCadastreObjectId());
+            CadastreObjectStatusChanger cadastreObject
+                    = this.getRepository().getEntity(CadastreObjectStatusChanger.class,
+                            targetObject.getCadastreObjectId());
             cadastreObject.setGeomPolygon(targetObject.getGeomPolygon());
             cadastreObject.setTransactionId(transactionId);
             cadastreObject.setApprovalDatetime(null);
@@ -504,8 +533,8 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         //Check afterwards if any condition is brokken by using the BR mechanism
         //Retrieve BRs that has to be checked
         List<BrValidation> brList = systemEJB.getBrForSpatialUnitGroupTransaction();
-        List<ValidationResult> validationResults =
-                systemEJB.checkRulesGetValidation(brList, languageCode, null);
+        List<ValidationResult> validationResults
+                = systemEJB.checkRulesGetValidation(brList, languageCode, null);
 
         if (!systemEJB.validationSucceeded(validationResults)) {
             throw new SOLAValidationException(validationResults);
@@ -568,10 +597,9 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, languageCode);
         return getRepository().getEntityList(Level.class, Level.WHERE_CONDITION, params);
     }
-    
+
     /**
-     * Gets the list of spatial units that intersect with the
-     * filteringGeometry.
+     * Gets the list of spatial units that intersect with the filteringGeometry.
      *
      * @param filteringGeometry The filtering geometry
      * @param hierarchyLevel The level id of the data
@@ -607,8 +635,7 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     }
 
     /**
-     * Retrieves a list of spatial units matching the list of ids
-     * provided.
+     * Retrieves a list of spatial units matching the list of ids provided.
      *
      * @param ids A list of spatial unit ids to use for retrieval.
      */
@@ -616,9 +643,9 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<SpatialUnit> getSpatialUnitsByIds(List<String> ids) {
         return getRepository().getEntityListByIds(SpatialUnit.class, ids);
     }
-    
+
     //SAVE SURVEY PLAN DETAILS
-     /**
+    /**
      * Saves the changes in the Survey Plan.
      *
      * @param items
@@ -633,10 +660,9 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
             getRepository().saveEntity(item);
         }
     }
-    
-     /**
-     * Retrieves a list of Survey Plans matching the list of ids
-     * provided.
+
+    /**
+     * Retrieves a list of Survey Plans matching the list of ids provided.
      *
      * @param ids A list of survey Plan ids to use for retrieval or lsNo.
      */
@@ -644,8 +670,8 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<SurveyPlan> getSurveyPlanByIds(List<String> ids) {
         return getRepository().getEntityListByIds(SurveyPlan.class, ids);
     }
-   
-      /**
+
+    /**
      * Retrieves a list of CordinateSystem Types matching the list of ids
      * provided.
      *
@@ -655,46 +681,45 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public List<CordinateSystemType> getCordinateTypesByIds(List<String> ids) {
         return getRepository().getEntityListByIds(CordinateSystemType.class, ids);
     }
-    
-     @Override
+
+    @Override
     public List<CordinateSystemType> getCordniateSystemTypes(String languageCode) {
         return getRepository().getCodeList(CordinateSystemType.class, languageCode);
     }
-    
+
     //SurveyingMethodType
-     @Override
+    @Override
     public List<SurveyingMethodType> getSurveyingMethodTypesByIds(List<String> ids) {
         return getRepository().getEntityListByIds(SurveyingMethodType.class, ids);
     }
-    
-     @Override
+
+    @Override
     public List<SurveyingMethodType> getSurveyingMethodTypes(String languageCode) {
         return getRepository().getCodeList(SurveyingMethodType.class, languageCode);
     }
-    
+
     //CheifdomType
-     @Override
+    @Override
     public List<ChiefdomType> getChiefdomTypesByIds(List<String> ids) {
         return getRepository().getEntityListByIds(ChiefdomType.class, ids);
     }
-    
-     @Override
+
+    @Override
     public List<ChiefdomType> getChiefdomTypes(String languageCode) {
         return getRepository().getCodeList(ChiefdomType.class, languageCode);
     }
-     
+
     //LandType
-     @Override
+    @Override
     public List<LandType> getLandTypesByIds(List<String> ids) {
         return getRepository().getEntityListByIds(LandType.class, ids);
     }
-    
-     @Override
+
+    @Override
     public List<LandType> getLandTypes(String languageCode) {
         return getRepository().getCodeList(LandType.class, languageCode);
     }
-    
-    
+
     //SurveyPlanView
     /*@Override
     public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String languageCode) {
@@ -703,20 +728,19 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         return getRepository().getEntityList(SurveyPlanListReturnReport.class,
                 SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, params);
     }
-    */
-    
+     */
     //
     @Override
     @RolesAllowed(RolesConstants.CADASTRE_SURVEY_PLAN_LIST)
     public List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, SurveyPlanListReturnReportParams params, String languageCode) {
-       List<SurveyPlanListReturnReport> result;
-       // this.validatePublicDisplay(searchString, languageCode); //Having issues with this method for validation
+        List<SurveyPlanListReturnReport> result;
+        // this.validatePublicDisplay(searchString, languageCode); //Having issues with this method for validation
 //        HashMap hashparams = new HashMap();
 //        hashparams.put("search_string", searchString);
 //        return getRepository().getEntityList(SurveyPlanListReturnReport.class,
 //                SurveyPlanListReturnReport.QUERY_WHERE_SEARCHBYPARTS, hashparams);
-        
-       Map queryParams = new HashMap<String, Object>();
+
+        Map queryParams = new HashMap<String, Object>();
         queryParams.put(CommonSqlProvider.PARAM_WHERE_PART, SurveyPlanListReturnReport.QUERY_GETQUERY);
 
         queryParams.put(SurveyPlanListReturnReport.PARAMETER_FROM,
@@ -730,4 +754,3 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         return result;
     }
 }
-

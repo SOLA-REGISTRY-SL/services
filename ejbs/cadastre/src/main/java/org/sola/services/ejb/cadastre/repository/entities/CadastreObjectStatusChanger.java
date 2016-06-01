@@ -51,6 +51,9 @@ public class CadastreObjectStatusChanger extends AbstractStatusChangerEntity {
     public static final String QUERY_WHERE_SEARCHBYTRANSACTION_TARGET =
             " id in (select cadastre_object_id from "
             + " cadastre.cadastre_object_target where transaction_id= #{transaction_id})";
+    public static final String QUERY_WHERE_BY_CURRENT_NAME_FIRST_LAST_PART =
+            " coalesce(name_firstpart, '') = #{name_firstpart} and " +
+            "coalesce(name_lastpart, '') = #{name_lastpart} and status_code = 'current'";
     @Column(name = "approval_datetime")
     private Date approvalDatetime;
     @Column(name = "historic_datetime")
@@ -59,6 +62,12 @@ public class CadastreObjectStatusChanger extends AbstractStatusChangerEntity {
     @AccessFunctions(onSelect = "st_asewkb(geom_polygon)",
     onChange = "get_geometry_with_srid(#{geomPolygon})")
     private byte[] geomPolygon;
+    @Column(name="survey_type_code", updatable = false, insertable = false)
+    private String surveyTypeCode;
+    @Column(name="ref_name_firstpart", updatable = false, insertable = false)
+    private String refNameFirstpart;
+    @Column(name="ref_name_lastpart", updatable = false, insertable = false)
+    private String refNameLastpart;
 
     public Date getApprovalDatetime() {
         return approvalDatetime;
@@ -74,6 +83,30 @@ public class CadastreObjectStatusChanger extends AbstractStatusChangerEntity {
 
     public void setHistoricDatetime(Date historicDatetime) {
         this.historicDatetime = historicDatetime;
+    }
+
+    public String getSurveyTypeCode() {
+        return surveyTypeCode;
+    }
+
+    public void setSurveyTypeCode(String surveyTypeCode) {
+        this.surveyTypeCode = surveyTypeCode;
+    }
+
+    public String getRefNameFirstpart() {
+        return refNameFirstpart;
+    }
+
+    public void setRefNameFirstpart(String refNameFirstpart) {
+        this.refNameFirstpart = refNameFirstpart;
+    }
+
+    public String getRefNameLastpart() {
+        return refNameLastpart;
+    }
+
+    public void setRefNameLastpart(String refNameLastpart) {
+        this.refNameLastpart = refNameLastpart;
     }
 
     public byte[] getGeomPolygon() {

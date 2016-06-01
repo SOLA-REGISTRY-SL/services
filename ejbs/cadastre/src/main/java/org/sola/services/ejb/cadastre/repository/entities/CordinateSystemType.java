@@ -26,7 +26,7 @@ public class CordinateSystemType extends AbstractCodeEntity{
     private String displayValue;
     
     @Column(name = "description")
-    private Date description;
+    private String description;
     
     @Column(name = "status")
     private String status;
@@ -51,11 +51,11 @@ public class CordinateSystemType extends AbstractCodeEntity{
         this.displayValue = displayValue;
     }
 
-   // public Date getDescription() {
-    //    return description;
-    //}
+    public String getDescription() {
+        return description;
+    }
 
-    public void setDescription(Date description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

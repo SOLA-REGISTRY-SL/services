@@ -12,7 +12,7 @@ import org.sola.services.common.repository.entities.AbstractCodeEntity;
  * Entity representing the cadastre.land_type code table.
  * @author soladev
  */
-    @Table(name = "land_type", schema = "cadastre")
+@Table(name = "land_type", schema = "cadastre")
 @DefaultSorter(sortString="display_value")
 public class LandType extends AbstractCodeEntity {
     public LandType(){
