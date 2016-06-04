@@ -56,7 +56,7 @@ public class PartySearchResult extends AbstractReadOnlyEntity {
             + "compare_strings(#{" + QUERY_PARAM_NAME + "}, COALESCE(p.name, '') || ' ' "
             + "|| COALESCE(p.last_name, '') || ' ' || COALESCE(p.alias, '')) END) "
             + "AND (#{" + QUERY_PARAM_TYPE_CODE + "} = '' OR LOWER(p.type_code) = LOWER(#{" + QUERY_PARAM_TYPE_CODE + "})) "
-            + "AND POSITION(LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) in LOWER(COALESCE(pr.type_code, ''))) > 0 "
+            + "AND (LOWER(#{" + QUERY_PARAM_ROLE_TYPE_CODE + "}) = LOWER(COALESCE(pr.type_code, '')) OR #{" + QUERY_PARAM_ROLE_TYPE_CODE + "} = '') "
             + "ORDER BY p.name, p.last_name "
             + "LIMIT 101";
     public static final String SEARCH_BY_ROLE_QUERY =
