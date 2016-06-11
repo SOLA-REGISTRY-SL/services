@@ -25,16 +25,8 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * *********************************************************************************************
  */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sola.services.ejb.transaction.repository.entities;
 
-/**
- *
- * @author Elton Manoku
- */
 public class TransactionType {
     public static final String CADASTRE_CHANGE = "cadastreChange"; 
     public static final String MAP_EXISTINGPARCEL = "mapExistingParcel";
@@ -47,4 +39,5 @@ public class TransactionType {
     public static final String NEW_STATE = "newState"; 
     public static final String NEW_FREEHOLD = "newFreehold"; 
     public static final String NEW_PARCEL = "newParcel"; 
+    public static final String EXISTING_PARCEL = "existingParcel";
 }
