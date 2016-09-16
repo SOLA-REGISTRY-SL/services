@@ -100,8 +100,8 @@ import org.sola.services.common.repository.entities.AbstractEntity;
     RolesConstants.CLASSIFICATION_SECRET,
     RolesConstants.CLASSIFICATION_TOPSECRET,
     RolesConstants.CLASSIFICATION_SUPPRESSION_ORDER,
-    RolesConstants.SERVICE_START_NOTIFY
-    
+    RolesConstants.SERVICE_START_NOTIFY,
+    RolesConstants.STATE_LAND_CLEARANCE
 })
 public abstract class AbstractEJB implements AbstractEJBLocal {
 

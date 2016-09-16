@@ -254,6 +254,7 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
 
     List<LandType> getLandTypesByIds(List<String> ids);
     
+    boolean makeStateLandClearance(String coId, boolean cleared);
     
     //Survey plan view report
     

@@ -96,6 +96,10 @@ public class CadastreObject extends AbstractVersionedEntity {
     public static final String QUERY_ORDER_BY_SEARCHBYPARTS =
             "lpad(regexp_replace(name_firstpart, '\\D*', '', 'g'), 5, '0') "
             + "|| name_firstpart || name_lastpart";
+    
+    public static final String QUERY_MAKE_STATE_LAND_CLEARANCE = 
+            "update cadastre.cadastre_object set state_land_clearance = #{cleared} where id = #{id} and status_code = 'pending' and land_type = 'private_land'";
+    
     @Id
     @Column(name = "id")
     private String id;
@@ -164,6 +168,8 @@ public class CadastreObject extends AbstractVersionedEntity {
     @ExternalEJB(ejbLocalClass = PartyEJBLocal.class, loadMethod = "getParty")
     @ChildEntity(childIdField = "stateLandClearingOfficerId")
     private Party stateLandClearingOfficer;
+    @Column(name="state_land_clearance", insertable = false, updatable = false)
+    private boolean stateLandClearance;
     
     @Column(name="survey_type_code")
     private String surveyTypeCode;
@@ -499,6 +505,14 @@ public class CadastreObject extends AbstractVersionedEntity {
 
     public void setComputationFile(String computationFile) {
         this.computationFile = computationFile;
+    }
+
+    public boolean isStateLandClearance() {
+        return stateLandClearance;
+    }
+
+    public void setStateLandClearance(boolean stateLandClearance) {
+        this.stateLandClearance = stateLandClearance;
     }
 
     public String getDrawnBy() {

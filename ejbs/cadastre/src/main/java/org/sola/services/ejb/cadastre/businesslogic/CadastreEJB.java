@@ -753,4 +753,16 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
         result = getRepository().getEntityList(SurveyPlanListReturnReport.class, queryParams);
         return result;
     }
+
+    @Override
+    @RolesAllowed({RolesConstants.STATE_LAND_CLEARANCE})
+    public boolean makeStateLandClearance(String coId, boolean cleared) {
+        Map queryParams = new HashMap<String, Object>();
+        queryParams.put(CommonSqlProvider.PARAM_QUERY, CadastreObject.QUERY_MAKE_STATE_LAND_CLEARANCE);
+
+        queryParams.put("id", coId);
+        queryParams.put("cleared", cleared);
+        getRepository().executeSql(queryParams);
+        return true;
+    }
 }
