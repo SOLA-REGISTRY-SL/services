@@ -273,6 +273,9 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
                 params.getDocumentNumber() == null ? "" : params.getDocumentNumber().trim());
         queryParams.put(ApplicationSearchResult.QUERY_PARAM_DOCUMENT_REFERENCE,
                 params.getDocumentReference() == null ? "" : params.getDocumentReference().trim());
+        //Get application type for eg. state land/private land
+         queryParams.put(ApplicationSearchResult.QUERY_PARAM_APP_FOR,
+                params.getApplicationFor() == null ? "" : params.getApplicationFor().trim());
 
         queryParams.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_SEARCH_APPLICATIONS);
         queryParams.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);

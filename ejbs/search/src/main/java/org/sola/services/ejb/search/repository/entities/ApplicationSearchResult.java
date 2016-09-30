@@ -56,6 +56,7 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     public static final String QUERY_PARAM_CONTACT_NAME = "contactName";
     public static final String QUERY_PARAM_DOCUMENT_NUMBER = "documentNumber";
     public static final String QUERY_PARAM_DOCUMENT_REFERENCE = "documentRef";
+    public static final String QUERY_PARAM_APP_FOR = "applicationFor"; //To check this and include the query/joint for the application type for eg. private/state
     public static final String QUERY_FROM
             = "(application.application a LEFT JOIN application.application_status_type ast on a.status_code = ast.code) "
             + "LEFT JOIN system.appuser u ON a.assignee_id = u.id "
