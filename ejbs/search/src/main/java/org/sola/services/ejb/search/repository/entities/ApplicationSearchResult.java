@@ -56,6 +56,7 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     public static final String QUERY_PARAM_CONTACT_NAME = "contactName";
     public static final String QUERY_PARAM_DOCUMENT_NUMBER = "documentNumber";
     public static final String QUERY_PARAM_DOCUMENT_REFERENCE = "documentRef";
+
     public static final String QUERY_PARAM_PARCEL = "parcel";
 
     public static final String QUERY_FROM
