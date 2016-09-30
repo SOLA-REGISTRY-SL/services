@@ -271,6 +271,8 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
                 params.getToDate() == null ? new GregorianCalendar(2500, 1, 1).getTime() : params.getToDate());
         queryParams.put(ApplicationSearchResult.QUERY_PARAM_DOCUMENT_NUMBER,
                 params.getDocumentNumber() == null ? "" : params.getDocumentNumber().trim());
+        queryParams.put(ApplicationSearchResult.QUERY_PARAM_PARCEL,
+                params.getParcel() == null ? "" : params.getParcel().trim());
         queryParams.put(ApplicationSearchResult.QUERY_PARAM_DOCUMENT_REFERENCE,
                 params.getDocumentReference() == null ? "" : params.getDocumentReference().trim());
 

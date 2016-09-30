@@ -56,6 +56,8 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     public static final String QUERY_PARAM_CONTACT_NAME = "contactName";
     public static final String QUERY_PARAM_DOCUMENT_NUMBER = "documentNumber";
     public static final String QUERY_PARAM_DOCUMENT_REFERENCE = "documentRef";
+    public static final String QUERY_PARAM_PARCEL = "parcel";
+
     public static final String QUERY_FROM
             = "(application.application a LEFT JOIN application.application_status_type ast on a.status_code = ast.code) "
             + "LEFT JOIN system.appuser u ON a.assignee_id = u.id "
@@ -74,6 +76,21 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             = "a.lodging_datetime BETWEEN #{" + QUERY_PARAM_FROM_LODGE_DATE + "} AND #{" + QUERY_PARAM_TO_LODGE_DATE + "} "
             + "AND (CASE WHEN #{" + QUERY_PARAM_APP_NR + "} = '' THEN true ELSE "
             + "compare_strings(#{" + QUERY_PARAM_APP_NR + "}, a.nr) END) "
+            
+            + "AND (CASE WHEN #{" + QUERY_PARAM_PARCEL + "} = '' THEN true ELSE  "
+            //            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, COALESCE(co.name_lastpart||'/'||co.name_firstpart, ''))) END) "
+            + "(compare_strings(#{" +  QUERY_PARAM_PARCEL + "}, ( select co.name_firstpart||co.name_lastpart  "
+            + "from application.application aa, "
+            + "application.service ss, "
+            + "cadastre.cadastre_object co, "
+            + "transaction.transaction tt "
+            + "where "
+            + "aa.id = ss.application_id "
+            + "and "
+            + "ss.id = tt.from_service_id "
+            + "and "
+            + "tt.id = co.transaction_id and aa.id =a.id) ) )END) "
+            
             + "AND (CASE WHEN #{" + QUERY_PARAM_CONTACT_NAME + "} = '' THEN true ELSE "
             + "compare_strings(#{" + QUERY_PARAM_CONTACT_NAME + "}, COALESCE(p.name, '') || ' ' || COALESCE(p.last_name, '')) END) "
             + "AND (CASE WHEN #{" + QUERY_PARAM_AGENT_NAME + "} = '' THEN true ELSE "
@@ -140,11 +157,39 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     @AccessFunctions(onSelect = "a.redact_code")
     @Column(name = AbstractReadOnlyEntity.REDACT_CODE_COLUMN_NAME)
     private String redactCode;
-
+    
+     @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
+    + "( select co.name_firstpart||co.name_lastpart  as display_value "
+            + "from application.application aa, "
+            + "application.service ss, "
+            + "cadastre.cadastre_object co, "
+            + "transaction.transaction tt "
+            + "where "
+            + "aa.id = ss.application_id "
+            + "and "
+            + "ss.id = tt.from_service_id "
+            + "and "
+            + "tt.id = co.transaction_id         "
+            + "and aa.id = a.id "
+            + "  ORDER BY display_value) tmp)  ")
+    @Column(name = "parcel")
+    private String parcel;
+    
+    
+    
+    
     public ApplicationSearchResult() {
         super();
     }
 
+    public String getParcel() {
+        return parcel;
+    }
+
+    public void setParcel(String parcel) {
+        this.parcel = parcel;
+    }
+    
     public String getId() {
         return id;
     }
