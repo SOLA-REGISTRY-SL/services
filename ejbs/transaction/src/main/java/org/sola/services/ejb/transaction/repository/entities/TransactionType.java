@@ -40,4 +40,7 @@ public class TransactionType {
     public static final String NEW_FREEHOLD = "newFreehold"; 
     public static final String NEW_PARCEL = "newParcel"; 
     public static final String EXISTING_PARCEL = "existingParcel";
+    public static final String NEW_PARCEL_SL = "newParcelSL";
+    public static final String EXISTING_PARCEL_SL = "existingParcelSL";
+    
 }

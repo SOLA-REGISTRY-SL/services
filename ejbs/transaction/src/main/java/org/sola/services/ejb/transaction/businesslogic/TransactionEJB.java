@@ -237,6 +237,8 @@ public class TransactionEJB extends AbstractEJB implements TransactionEJBLocal {
                 || requestType.equals(TransactionType.MAP_EXISTINGPARCEL)
                 || requestType.equals(TransactionType.NEW_PARCEL)
                 || requestType.equals(TransactionType.EXISTING_PARCEL)
+                || requestType.equals(TransactionType.NEW_PARCEL_SL)
+                || requestType.equals(TransactionType.EXISTING_PARCEL_SL)
                 || requestType.equals(TransactionType.NEW_APARTMENT)
                 || requestType.equals(TransactionType.NEW_DIGITAL_PROPERTY)
                 || requestType.equals(TransactionType.NEW_DIGITAL_TITLE)
@@ -383,7 +385,8 @@ public class TransactionEJB extends AbstractEJB implements TransactionEJBLocal {
         List<BrValidation> brValidationList = null;
         if (requestType.equals(TransactionType.CADASTRE_CHANGE)
                 || requestType.equals(TransactionType.REDEFINE_CADASTRE) 
-                || requestType.equalsIgnoreCase(TransactionType.NEW_PARCEL)) {
+                || requestType.equalsIgnoreCase(TransactionType.NEW_PARCEL)
+                || requestType.equalsIgnoreCase(TransactionType.NEW_PARCEL_SL)) {
             brValidationList = this.systemEJB.getBrForValidatingTransaction(
                     "cadastre_object", momentCode, requestType);
         } else if (requestType.equals(TransactionType.BULK_OPERATION_SPATIAL)) {
