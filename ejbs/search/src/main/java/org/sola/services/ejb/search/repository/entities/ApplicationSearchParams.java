@@ -43,6 +43,17 @@ public class ApplicationSearchParams extends AbstractReadOnlyEntity {
 
     private String parcel;
     
+    private String landType;
+    
+    public String getLandType() {
+        return landType;
+    }
+
+    public void setLandType(String landType) {
+        this.landType = landType;
+    }
+    
+    
     public ApplicationSearchParams() {
     }
     

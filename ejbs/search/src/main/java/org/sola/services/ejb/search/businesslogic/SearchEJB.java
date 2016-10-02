@@ -273,6 +273,10 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
                 params.getDocumentNumber() == null ? "" : params.getDocumentNumber().trim());
         queryParams.put(ApplicationSearchResult.QUERY_PARAM_PARCEL,
                 params.getParcel() == null ? "" : params.getParcel().trim());
+        queryParams.put(ApplicationSearchResult.QUERY_PARAM_LAND_TYPE,
+                params.getLandType() == null ? "" : params.getLandType().trim());
+        
+        
         queryParams.put(ApplicationSearchResult.QUERY_PARAM_DOCUMENT_REFERENCE,
                 params.getDocumentReference() == null ? "" : params.getDocumentReference().trim());
        
