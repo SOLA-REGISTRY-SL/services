@@ -172,6 +172,7 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
      * @return The cadastre object after the save is completed.
      */
     @Override
+    @RolesAllowed({RolesConstants.MANAGE_SURVEY_PLAN})
     public CadastreObject saveCadastreObject(CadastreObject cadastreObject) {
         return getRepository().saveEntity(cadastreObject);
     }
@@ -759,6 +760,30 @@ public class CadastreEJB extends AbstractEJB implements CadastreEJBLocal {
     public boolean makeStateLandClearance(String coId, boolean cleared) {
         Map queryParams = new HashMap<String, Object>();
         queryParams.put(CommonSqlProvider.PARAM_QUERY, CadastreObject.QUERY_MAKE_STATE_LAND_CLEARANCE);
+
+        queryParams.put("id", coId);
+        queryParams.put("cleared", cleared);
+        getRepository().executeSql(queryParams);
+        return true;
+    }
+    
+    @Override
+    @RolesAllowed({RolesConstants.PLANNING_CLEARANCE})
+    public boolean makePlanningClearance(String coId, boolean cleared) {
+        Map queryParams = new HashMap<String, Object>();
+        queryParams.put(CommonSqlProvider.PARAM_QUERY, CadastreObject.QUERY_MAKE_PLANNING_CLEARANCE);
+
+        queryParams.put("id", coId);
+        queryParams.put("cleared", cleared);
+        getRepository().executeSql(queryParams);
+        return true;
+    }
+    
+    @Override
+    @RolesAllowed({RolesConstants.ENVIRONMENT_CLEARANCE})
+    public boolean makeEnvironmentClearance(String coId, boolean cleared) {
+        Map queryParams = new HashMap<String, Object>();
+        queryParams.put(CommonSqlProvider.PARAM_QUERY, CadastreObject.QUERY_MAKE_ENVIRONMENT_CLEARANCE);
 
         queryParams.put("id", coId);
         queryParams.put("cleared", cleared);

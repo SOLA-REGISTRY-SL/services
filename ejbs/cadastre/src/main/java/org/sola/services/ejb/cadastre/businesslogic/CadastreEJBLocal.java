@@ -256,6 +256,10 @@ public interface CadastreEJBLocal extends AbstractEJBLocal {
     
     boolean makeStateLandClearance(String coId, boolean cleared);
     
+    boolean makePlanningClearance(String coId, boolean cleared);
+    
+    boolean makeEnvironmentClearance(String coId, boolean cleared);
+    
     //Survey plan view report
     
     List<SurveyPlanListReturnReport> getSurveyPlanListReturnReport(String searchString, SurveyPlanListReturnReportParams params, String languageCode);

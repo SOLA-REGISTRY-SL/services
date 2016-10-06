@@ -100,6 +100,12 @@ public class CadastreObject extends AbstractVersionedEntity {
     public static final String QUERY_MAKE_STATE_LAND_CLEARANCE = 
             "update cadastre.cadastre_object set state_land_clearance = #{cleared} where id = #{id} and status_code = 'pending' and land_type = 'private_land'";
     
+    public static final String QUERY_MAKE_PLANNING_CLEARANCE = 
+            "update cadastre.cadastre_object set planning_clearance = #{cleared} where id = #{id} and status_code = 'pending' and land_type = 'private_land'";
+    
+    public static final String QUERY_MAKE_ENVIRONMENT_CLEARANCE = 
+            "update cadastre.cadastre_object set environment_clearance = #{cleared} where id = #{id} and status_code = 'pending' and land_type = 'private_land'";
+    
     @Id
     @Column(name = "id")
     private String id;
@@ -170,6 +176,10 @@ public class CadastreObject extends AbstractVersionedEntity {
     private Party stateLandClearingOfficer;
     @Column(name="state_land_clearance", insertable = false, updatable = false)
     private boolean stateLandClearance;
+    @Column(name="planning_clearance", insertable = false, updatable = false)
+    private boolean planningClearance;
+    @Column(name="environment_clearance", insertable = false, updatable = false)
+    private boolean environmentClearance;
     
     @Column(name="survey_type_code")
     private String surveyTypeCode;
@@ -545,6 +555,22 @@ public class CadastreObject extends AbstractVersionedEntity {
 
     public void setDwgOffNumber(String dwgOffNumber) {
         this.dwgOffNumber = dwgOffNumber;
+    }
+
+    public boolean isPlanningClearance() {
+        return planningClearance;
+    }
+
+    public void setPlanningClearance(boolean planningClearance) {
+        this.planningClearance = planningClearance;
+    }
+
+    public boolean isEnvironmentClearance() {
+        return environmentClearance;
+    }
+
+    public void setEnvironmentClearance(boolean environmentClearance) {
+        this.environmentClearance = environmentClearance;
     }
 
     /**
