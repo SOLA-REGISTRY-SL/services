@@ -135,7 +135,7 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "compare_strings(#{" + QUERY_PARAM_APP_NR + "}, a.nr) END) "
             + "AND (CASE WHEN #{" + QUERY_PARAM_PARCEL + "} = '' THEN true ELSE  "
             //            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, COALESCE(co.name_lastpart||'/'||co.name_firstpart, ''))) END) "
-            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, ( select co.name_firstpart||co.name_lastpart  "
+            + "(compare_strings(#{" +  QUERY_PARAM_PARCEL + "}, ( select COALESCE(co.name_firstpart, '')||'/'||COALESCE(co.name_lastpart, '')  "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
@@ -225,9 +225,8 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     @AccessFunctions(onSelect = "a.redact_code")
     @Column(name = AbstractReadOnlyEntity.REDACT_CODE_COLUMN_NAME)
     private String redactCode;
-
     @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
-            + "( select co.name_firstpart||co.name_lastpart  as display_value "
+    + "(select COALESCE(co.name_firstpart, '')||'/'||COALESCE(co.name_lastpart, '')  as display_value "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
