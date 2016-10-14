@@ -945,4 +945,147 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
         params.put("geom", wkbGeom);
         return getRepository().getScalar(byte[].class, params);
     }
+    
+    @Override
+    public List<ApplicationSearchResult> getMyApplications(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(ApplicationSearchResult.QUERY_PARAM_USER_NAME, getUserName());
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_ASSIGNED);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+//        params.put(CommonSqlProvider.PARAM_LIMIT_PART, "100");
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+    
+    @Override
+    public List<ApplicationSearchResult> getPlLodgedApplications(String locale){
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_LODGED);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+    
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForPlanCapturing(String locale){
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_CAPTURING);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForSLClearance(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_STATE_CLEARANCE);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForPlanningClearance(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_PLANNING_CLEARANCE);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForEnvClearance(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_ENV_CLEARANCE);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForCompletion(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_COMPLETION);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApplicationsForApproval(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_FOR_APPROVAL);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getSlLodgedApplications(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_SL_LODGED);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getSlApplicationsForPlanCapturing(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_SL_FOR_CAPTURING);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getSlApplicationsForCompletion(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_SL_FOR_COMPLETION);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getSlApplicationsForApproval(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_SL_FOR_APPROVAL);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+    
+    @Override
+    public DashboardStatistics getDashboardStatistics(){
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_QUERY, DashboardStatistics.QUERY);
+        params.put(DashboardStatistics.QUERY_PARAM_USER_NAME, getUserName());
+
+        return getRepository().getEntity(DashboardStatistics.class, params);
+    }
 }

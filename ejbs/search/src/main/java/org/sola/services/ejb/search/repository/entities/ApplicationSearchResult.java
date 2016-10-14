@@ -64,11 +64,67 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "LEFT JOIN system.appuser u ON a.assignee_id = u.id "
             + "LEFT JOIN party.party p ON a.contact_person_id = p.id "
             + "LEFT JOIN party.party p2 ON a.agent_id = p2.id ";
+
     public static final String QUERY_WHERE_GET_ASSIGNED = "u.username = #{" + QUERY_PARAM_USER_NAME + "} "
             + " AND a.status_code in ('lodged', 'approved', 'to-be-transferred')";
+
     public static final String QUERY_WHERE_GET_ASSIGNED_ALL = "u.username IS NOT NULL AND a.status_code in ('lodged', 'approved', 'to-be-transferred')";
+
     public static final String QUERY_WHERE_GET_UNASSIGNED = "u.username IS NULL "
             + " AND a.status_code in ('lodged', 'approved', 'to-be-transferred')";
+
+    public static final String QUERY_WHERE_GET_PL_LODGED = "a.status_code in ('lodged') and "
+            + "a.id in (select application_id from application.service where request_type_code in ('newParcel', 'existingParcel') and status_code = 'lodged')";
+
+    public static final String QUERY_WHERE_GET_SL_LODGED = "a.status_code in ('lodged') and "
+            + "a.id in (select application_id from application.service where request_type_code in ('newParcelSL', 'existingParcelSL') and status_code = 'lodged')";
+
+    public static final String QUERY_WHERE_GET_PL_FOR_CAPTURING = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel') "
+            + "AND status_code in ('lodged', 'pending') AND id NOT IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id))";
+
+    public static final String QUERY_WHERE_GET_SL_FOR_CAPTURING = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcelSL', 'existingParcelSL') "
+            + "AND status_code in ('lodged', 'pending') AND id NOT IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id))";
+
+    public static final String QUERY_WHERE_GET_PL_FOR_APPROVAL = "a.status_code IN ('lodged') "
+            + "AND a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel')) "
+            + "AND a.id NOT IN (SELECT application_id FROM application.service WHERE status_code IN ('lodged', 'pending'))";
+
+    public static final String QUERY_WHERE_GET_SL_FOR_APPROVAL = "a.status_code IN ('lodged') "
+            + "AND a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcelSL', 'existingParcelSL')) "
+            + "AND a.id NOT IN (SELECT application_id FROM application.service WHERE status_code IN ('lodged', 'pending'))";
+
+    public static final String QUERY_WHERE_GET_PL_FOR_STATE_CLEARANCE = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel') "
+            + "AND status_code in ('lodged', 'pending') AND id IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id WHERE co.state_land_clearance = 'f'))";
+    
+    public static final String QUERY_WHERE_GET_PL_FOR_PLANNING_CLEARANCE = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel') "
+            + "AND status_code in ('lodged', 'pending') AND id IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id "
+            + "WHERE co.state_land_clearance = 't' AND co.planning_clearance = 'f'))";
+    
+    public static final String QUERY_WHERE_GET_PL_FOR_ENV_CLEARANCE = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel') "
+            + "AND status_code in ('lodged', 'pending') AND id IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id "
+            + "WHERE co.state_land_clearance = 't' AND co.environment_clearance = 'f'))";
+    
+    public static final String QUERY_WHERE_GET_PL_FOR_COMPLETION = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel') "
+            + "AND status_code in ('lodged', 'pending') AND id IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id "
+            + "WHERE co.state_land_clearance = 't'))";
+    
+    public static final String QUERY_WHERE_GET_SL_FOR_COMPLETION = "a.status_code = 'lodged' AND "
+            + "a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcelSL', 'existingParcelSL') "
+            + "AND status_code in ('lodged', 'pending') AND id IN "
+            + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id))";
+    
     /**
      * Uses CASE statements to skip execution of the compare_strings function if
      * the parameter string is empty.
@@ -77,10 +133,9 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             = "a.lodging_datetime BETWEEN #{" + QUERY_PARAM_FROM_LODGE_DATE + "} AND #{" + QUERY_PARAM_TO_LODGE_DATE + "} "
             + "AND (CASE WHEN #{" + QUERY_PARAM_APP_NR + "} = '' THEN true ELSE "
             + "compare_strings(#{" + QUERY_PARAM_APP_NR + "}, a.nr) END) "
-            
             + "AND (CASE WHEN #{" + QUERY_PARAM_PARCEL + "} = '' THEN true ELSE  "
             //            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, COALESCE(co.name_lastpart||'/'||co.name_firstpart, ''))) END) "
-            + "(compare_strings(#{" +  QUERY_PARAM_PARCEL + "}, ( select co.name_firstpart||co.name_lastpart  "
+            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, ( select co.name_firstpart||co.name_lastpart  "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
@@ -91,11 +146,9 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "ss.id = tt.from_service_id "
             + "and "
             + "tt.id = co.transaction_id and aa.id =a.id) ) )END) "
-            
-            
             + "AND (CASE WHEN #{" + QUERY_PARAM_LAND_TYPE + "} = '' THEN true ELSE  "
             //            + "(compare_strings(#{" + QUERY_PARAM_PARCEL + "}, COALESCE(co.name_lastpart||'/'||co.name_firstpart, ''))) END) "
-            + "(compare_strings(#{" +  QUERY_PARAM_LAND_TYPE + "}, ( select co.land_type  "
+            + "(compare_strings(#{" + QUERY_PARAM_LAND_TYPE + "}, ( select co.land_type  "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
@@ -106,9 +159,6 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "ss.id = tt.from_service_id "
             + "and "
             + "tt.id = co.transaction_id and aa.id =a.id) ) )END) "
-            
-            
-            
             + "AND (CASE WHEN #{" + QUERY_PARAM_CONTACT_NAME + "} = '' THEN true ELSE "
             + "compare_strings(#{" + QUERY_PARAM_CONTACT_NAME + "}, COALESCE(p.name, '') || ' ' || COALESCE(p.last_name, '')) END) "
             + "AND (CASE WHEN #{" + QUERY_PARAM_AGENT_NAME + "} = '' THEN true ELSE "
@@ -175,9 +225,9 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     @AccessFunctions(onSelect = "a.redact_code")
     @Column(name = AbstractReadOnlyEntity.REDACT_CODE_COLUMN_NAME)
     private String redactCode;
-    
-     @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
-    + "( select co.name_firstpart||co.name_lastpart  as display_value "
+
+    @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
+            + "( select co.name_firstpart||co.name_lastpart  as display_value "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
@@ -192,9 +242,9 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "  ORDER BY display_value) tmp)  ")
     @Column(name = "parcel")
     private String parcel;
-    
-     @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
-    + "( select co.land_type  as display_value "
+
+    @AccessFunctions(onSelect = "(SELECT string_agg(tmp.display_value, ',') FROM "
+            + "( select co.land_type  as display_value "
             + "from application.application aa, "
             + "application.service ss, "
             + "cadastre.cadastre_object co, "
@@ -217,7 +267,7 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     public void setLandType(String landType) {
         this.landType = landType;
     }
-    
+
     public ApplicationSearchResult() {
         super();
     }
@@ -229,7 +279,7 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
     public void setParcel(String parcel) {
         this.parcel = parcel;
     }
-    
+
     public String getId() {
         return id;
     }

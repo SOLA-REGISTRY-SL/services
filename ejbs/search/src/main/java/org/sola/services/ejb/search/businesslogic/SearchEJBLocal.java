@@ -226,4 +226,30 @@ public interface SearchEJBLocal extends AbstractEJBLocal {
      * See {@linkplain SearchEJB#transform(byte[], int)}.
      */
     byte[] transform(byte[] geom, int targetSrid);
+    
+    List<ApplicationSearchResult> getMyApplications(String locale);
+    
+    List<ApplicationSearchResult> getPlLodgedApplications(String locale);
+    
+    List<ApplicationSearchResult> getPlApplicationsForPlanCapturing(String locale);
+            
+    List<ApplicationSearchResult> getPlApplicationsForSLClearance(String locale);
+    
+    List<ApplicationSearchResult> getPlApplicationsForPlanningClearance(String locale);
+    
+    List<ApplicationSearchResult> getPlApplicationsForEnvClearance(String locale);
+    
+    List<ApplicationSearchResult> getPlApplicationsForCompletion(String locale);
+    
+    List<ApplicationSearchResult> getPlApplicationsForApproval(String locale);
+    
+    List<ApplicationSearchResult> getSlLodgedApplications(String locale);
+    
+    List<ApplicationSearchResult> getSlApplicationsForPlanCapturing(String locale);
+    
+    List<ApplicationSearchResult> getSlApplicationsForCompletion(String locale);
+    
+    List<ApplicationSearchResult> getSlApplicationsForApproval(String locale);
+    
+    DashboardStatistics getDashboardStatistics();
 }
