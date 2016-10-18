@@ -22,7 +22,9 @@ public class DashboardStatistics extends AbstractReadOnlyEntity {
             + "COUNT(DISTINCT (CASE WHEN a.status_code = 'lodged' AND s.request_type_code in ('newParcel', 'existingParcel') AND s.status_code in ('lodged','pending') AND co.state_land_clearance = 't' AND co.planning_clearance = 'f' THEN a.id ELSE null END)) AS pl_for_planning_clearance, "
             + "COUNT(DISTINCT (CASE WHEN a.status_code = 'lodged' AND s.request_type_code in ('newParcel', 'existingParcel') AND s.status_code in ('lodged','pending') AND co.state_land_clearance = 't' AND co.environment_clearance = 'f' THEN a.id ELSE null END)) AS pl_for_env_clearance, "
             + "COUNT(DISTINCT (CASE WHEN a.status_code = 'lodged' AND s.request_type_code in ('newParcel', 'existingParcel') AND s.status_code in ('lodged','pending') AND co.state_land_clearance = 't' THEN a.id ELSE null END)) AS pl_for_completion, "
-            + "COUNT(DISTINCT (CASE WHEN a.status_code = 'lodged' AND s.request_type_code in ('newParcelSL', 'existingParcelSL') AND s.status_code in ('lodged','pending') AND co.id IS NOT NULL THEN a.id ELSE null END)) AS sl_for_completion "
+            + "COUNT(DISTINCT (CASE WHEN a.status_code = 'lodged' AND s.request_type_code in ('newParcelSL', 'existingParcelSL') AND s.status_code in ('lodged','pending') AND co.id IS NOT NULL THEN a.id ELSE null END)) AS sl_for_completion, "
+            + "COUNT(DISTINCT (CASE WHEN a.status_code = 'approved' AND s.request_type_code in ('newParcelSL', 'existingParcelSL') THEN a.id ELSE null END)) AS sl_approved, "
+            + "COUNT(DISTINCT (CASE WHEN a.status_code = 'approved' AND s.request_type_code in ('newParcel', 'existingParcel') THEN a.id ELSE null END)) AS pl_approved "
             + "FROM application.application a  "
             + "	INNER JOIN application.application_status_type ast on a.status_code = ast.code "
             + "	INNER JOIN application.service s ON a.id = s.application_id "
@@ -59,6 +61,10 @@ public class DashboardStatistics extends AbstractReadOnlyEntity {
     private long plForCompletion;
     @Column(name = "sl_for_completion")
     private long slForCompletion;
+    @Column(name = "pl_approved")
+    private long plApproved;
+    @Column(name = "sl_approved")
+    private long slApproved;
     
     public DashboardStatistics(){
         super();
@@ -174,5 +180,21 @@ public class DashboardStatistics extends AbstractReadOnlyEntity {
 
     public void setSlForCompletion(long slForCompletion) {
         this.slForCompletion = slForCompletion;
+    }
+
+    public long getPlApproved() {
+        return plApproved;
+    }
+
+    public void setPlApproved(long plApproved) {
+        this.plApproved = plApproved;
+    }
+
+    public long getSlApproved() {
+        return slApproved;
+    }
+
+    public void setSlApproved(long slApproved) {
+        this.slApproved = slApproved;
     }
 }

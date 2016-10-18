@@ -1088,4 +1088,26 @@ public class SearchEJB extends AbstractEJB implements SearchEJBLocal {
 
         return getRepository().getEntity(DashboardStatistics.class, params);
     }
+
+    @Override
+    public List<ApplicationSearchResult> getPlApprovedApplications(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_PL_APPROVED);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
+
+    @Override
+    public List<ApplicationSearchResult> getSlApprovedApplications(String locale) {
+        Map params = new HashMap<String, Object>();
+        params.put(CommonSqlProvider.PARAM_FROM_PART, ApplicationSearchResult.QUERY_FROM);
+        params.put(CommonSqlProvider.PARAM_LANGUAGE_CODE, locale);
+        params.put(CommonSqlProvider.PARAM_WHERE_PART, ApplicationSearchResult.QUERY_WHERE_GET_SL_APPROVED);
+        params.put(CommonSqlProvider.PARAM_ORDER_BY_PART, ApplicationSearchResult.QUERY_ORDER_BY);
+
+        return getRepository().getEntityList(ApplicationSearchResult.class, params);
+    }
 }

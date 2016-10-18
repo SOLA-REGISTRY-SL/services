@@ -251,5 +251,9 @@ public interface SearchEJBLocal extends AbstractEJBLocal {
     
     List<ApplicationSearchResult> getSlApplicationsForApproval(String locale);
     
+    List<ApplicationSearchResult> getPlApprovedApplications(String locale);
+    
+    List<ApplicationSearchResult> getSlApprovedApplications(String locale);
+    
     DashboardStatistics getDashboardStatistics();
 }

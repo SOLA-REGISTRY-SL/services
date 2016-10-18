@@ -125,6 +125,12 @@ public class ApplicationSearchResult extends AbstractReadOnlyEntity {
             + "AND status_code in ('lodged', 'pending') AND id IN "
             + "(SELECT t.from_service_id FROM transaction.transaction t INNER JOIN cadastre.cadastre_object co ON t.id = co.transaction_id))";
     
+    public static final String QUERY_WHERE_GET_SL_APPROVED = "a.status_code = 'approved' "
+            + "AND a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcelSL', 'existingParcelSL'))";
+    
+    public static final String QUERY_WHERE_GET_PL_APPROVED = "a.status_code = 'approved' "
+            + "AND a.id IN (SELECT application_id FROM application.service WHERE request_type_code in ('newParcel', 'existingParcel'))";
+    
     /**
      * Uses CASE statements to skip execution of the compare_strings function if
      * the parameter string is empty.
